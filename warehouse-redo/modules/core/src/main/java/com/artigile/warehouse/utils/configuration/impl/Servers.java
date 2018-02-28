@@ -8,7 +8,7 @@
  * license agreement you entered into with Artigile software company.
  */
 
-package com.artigile.warehouse.utils.xml.element;
+package com.artigile.warehouse.utils.configuration.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,28 +16,12 @@ import java.util.List;
 /**
  * @author Valery Barysok, 27.04.2010
  */
-public class Resources {
-    private List<Server> servers;
-    private List<DataSource> dataSources;
-    private List<JdbcResourcePool> jdbcResourcePools;
+public class Servers {
+    private List<Server> servers = new ArrayList<>();
     private String version;
-
-    public Resources() {
-        servers = new ArrayList<Server>();
-        dataSources = new ArrayList<DataSource>();
-        jdbcResourcePools = new ArrayList<JdbcResourcePool>();
-    }
 
     public List<Server> getServers() {
         return servers;
-    }
-
-    public List<DataSource> getDataSources() {
-        return dataSources;
-    }
-
-    public List<JdbcResourcePool> getJdbcResourcePools() {
-        return jdbcResourcePools;
     }
 
     public String getVersion() {

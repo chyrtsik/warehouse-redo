@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2007-2011 Artigile.
+  ~ Software art development company.
+  ~ All Rights Reserved.
+  ~
+  ~ This software is the confidential and proprietary information of Artigile. ("Confidential Information").
+  ~ You shall not disclose such Confidential Information and shall use it only in accordance with the terms of the
+  ~ license agreement you entered into with Artigile software company.
+  -->
+
+<servers xmlns="http://artigile.by/xml/ns/servers"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://artigile.by/xml/ns/servers http://artigile.by/xml/ns/servers/servers_1_0.xsd"
+         version="1.0">
+
+  <!-- Remote database server (replace {host_name} with your server's computer name or IP) -->
+  <server name="alex-server">
+    <property name="database.url" value="jdbc:mysql://alex-server:3306/warehouse?characterEncoding=utf-8"/>
+    <property name="database.driver" value="org.gjt.mm.mysql.Driver"/>
+    <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+  </server>
+</servers>

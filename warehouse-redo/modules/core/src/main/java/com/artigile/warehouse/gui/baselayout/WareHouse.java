@@ -24,10 +24,11 @@ import com.artigile.warehouse.gui.core.report.controller.ReportDataSource;
 import com.artigile.warehouse.gui.core.report.controller.TableFramePlugin;
 import com.artigile.warehouse.gui.menuitems.warehouse.warehouselist.WarehouseSelectForm;
 import com.artigile.warehouse.utils.SpringServiceContext;
+import com.artigile.warehouse.utils.configuration.impl.Server;
 import com.artigile.warehouse.utils.dto.UserTO;
 import com.artigile.warehouse.utils.i18n.I18nSupport;
 import com.artigile.warehouse.utils.preferences.SystemPreferencesUtils;
-import com.artigile.warehouse.utils.xml.ResourcesInitializer;
+import com.artigile.warehouse.utils.xml.ServersInitializer;
 import org.jdesktop.swingx.JXLoginPane;
 import org.jdesktop.swingx.JXLoginPane.JXLoginDialog;
 import org.jdesktop.swingx.JXLoginPane.Status;
@@ -114,8 +115,8 @@ public class WareHouse {
     }
 
     public static void init() {
-        ResourcesInitializer resourcesInitializer = ResourcesInitializer.getInstance();
-        List<String> servers = resourcesInitializer.getServers();
+        ServersInitializer serversInitializer = ServersInitializer.getInstance();
+        List<String> servers = serversInitializer.getServerNames();
 
         //1. Login into the system.
         final UserLoginService loginService = new UserLoginService();

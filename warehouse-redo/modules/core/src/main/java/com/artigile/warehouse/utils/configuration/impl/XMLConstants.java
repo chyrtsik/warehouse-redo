@@ -8,7 +8,7 @@
  * license agreement you entered into with Artigile software company.
  */
 
-package com.artigile.warehouse.utils.xml;
+package com.artigile.warehouse.utils.configuration.impl;
 
 /**
  * Static values for XML processing.
@@ -20,6 +20,6 @@ public class XMLConstants {
     public static final String JAXP_SCHEMA_SOURCE = "http://java.sun.com/xml/jaxp/properties/schemaSource";
     public static final String SCHEMA_LANGUAGE = "http://java.sun.com/xml/jaxp/properties/schemaLanguage";
     public static final String XML_SCHEMA = "http://www.w3.org/2001/XMLSchema";
-    public static final String RESOURCES_SCHEMA_NAME = "xsd/resources_1_0.xsd";
+    public static final String SERVERS_SCHEMA_NAME = "xsd/servers_1_0.xsd";
 
 }
