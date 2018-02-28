@@ -1,0 +1,1 @@
+ALTER TABLE email_config ADD COLUMN selectedPositionsPurchaseMessageSubject VARCHAR (100);

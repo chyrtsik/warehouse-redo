@@ -1,0 +1,1 @@
+alter table MenuItem add column terminal_use boolean not null default false;

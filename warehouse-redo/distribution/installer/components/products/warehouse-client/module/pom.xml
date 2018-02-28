@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2007-2011 Artigile.
+  ~ Software art development company.
+  ~ All Rights Reserved.
+  ~
+  ~ This software is the confidential and proprietary information of Artigile. ("Confidential Information").
+  ~ You shall not disclose such Confidential Information and shall use it only in accordance with the terms of the
+  ~ license agreement you entered into with Artigile software company.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.artigile.warehouse</groupId>
+        <artifactId>nbi-product-warehouse-client-aggregator</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>nbi-product-warehouse-client</artifactId>
+    <packaging>jar</packaging>
+
+    <name>NBI Product: Warehouse Client</name>
+
+    <properties>
+        <product.uid>${project.artifactId}</product.uid>
+        <product.version>${product.warehouse.client.version}</product.version>
+        <product.platforms>windows</product.platforms>
+
+        <!--
+            list of configuration logic jar files; normally the first one would be the 
+            distributive file of the product's netbeans project
+            * ${product.logic.length} - total number of the files
+            * indices should start with 1
+        -->
+        <product.logic.length>1</product.logic.length>
+
+        <!--
+            list of product installation data files
+            * ${product.data.length} - total number of the files
+            * ${product.data.N.uri} - uri at which the installation data file is located
+            * ${product.data.N.zip} - whether the data file is a zip archive which needs to 
+              be extracted or it is a file that should be used directly; 'true'/'false'
+            * indices should start with 1
+        -->
+        <product.data.length>1</product.data.length>
+        <!--
+        <product.data.1.zip>true</product.data.1.zip>
+        <product.data.1.path>${file.warehouse.client.core}</product.data.1.path>
+        <product.data.sub.dir>warehouse-client-core</product.data.sub.dir>
+        -->
+
+        <!--
+            additional product's properties; these will appear in the product's 
+            descriptor and in the registry in the form of 
+            <property name="[name]">value</property> tags.
+            * ${product.properties.length} - total number of the properties
+            * indices should start with 1
+            * properties are not i18n compliant
+        -->
+        <product.properties.length>3</product.properties.length>
+        <product.properties.1.name>installation.location</product.properties.1.name>
+        <product.properties.1.value>$N{install}/Artigile/Warehouse-client</product.properties.1.value>
+        <product.properties.2.name>installation.location.windows</product.properties.2.name>
+        <product.properties.2.value>$N{install}/Artigile/Warehouse-client</product.properties.2.value>
+        <product.properties.3.name>minimum.jre.version</product.properties.3.name>
+        <product.properties.3.value>1.6.20</product.properties.3.value>
+    </properties>
+
+    <build>
+        <finalName>${product.uid},${product.version},${product.platforms}</finalName>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.properties</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>**/*.properties</exclude>
+                    <exclude>data/${product.icon}</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <targetPath>${product.path}</targetPath>
+                <directory>src/main/resources/data</directory>
+                <includes>
+                    <include>${product.icon}</include>
+                </includes>
+            </resource>
+        </resources>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-logic-dep</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.artigile.warehouse</groupId>
+                                    <artifactId>nbi-product-warehouse-client-logic</artifactId>
+                                    <!--destFileName>${product.logic.file.name}</destFileName-->
+                                    <destFileName>logic,1.jar</destFileName>
+                                    <outputDirectory>${project.build.outputDirectory}/${product.logic.path}</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+
+                            <overWriteReleases>true</overWriteReleases>
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>unpack</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.artigile.warehouse</groupId>
+                                    <artifactId>application</artifactId>
+                                    <type>zip</type>
+                                    <outputDirectory>${project.build.directory}/data,1.jar</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>registry.xml</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <taskdef 
+                                    name="for-each" 
+                                    classname="org.netbeans.installer.infra.build.ant.ForEach" 
+                                    classpathref="maven.plugin.classpath"/>
+                                <taskdef 
+                                    name="set" 
+                                    classname="org.netbeans.installer.infra.build.ant.SetProperty" 
+                                    classpathref="maven.plugin.classpath"/>
+                                <taskdef 
+                                    name="sizeof" 
+                                    classname="org.netbeans.installer.infra.build.ant.SizeOf"
+                                    classpathref="maven.plugin.classpath"/>
+                                <taskdef 
+                                    name="md5" 
+                                    classname="org.netbeans.installer.infra.build.ant.Md5"
+                                    classpathref="maven.plugin.classpath"/>
+                                <taskdef 
+                                    name="load-locales" 
+                                    classname="org.netbeans.installer.infra.build.ant.LoadLocales"
+                                    classpathref="maven.plugin.classpath"/>
+                                <taskdef
+                                    name="sum"
+                                    classname="org.netbeans.installer.infra.build.ant.Sum"
+                                    classpathref="maven.plugin.classpath"/>
+                                <taskdef
+                                    name="package"
+                                    classname="org.netbeans.installer.infra.build.ant.Package"
+                                    classpathref="maven.plugin.classpath"/>
+                                <taskdef 
+                                    name="product-descriptor" 
+                                    classname="org.netbeans.installer.infra.build.ant.ProductDescriptor" 
+                                    classpathref="maven.plugin.classpath"/>
+
+
+                                <set property="product.disk.space" 
+                                    value="${product.disk.space.modificator}"/>
+
+                                <set 
+                                    property="product.logic.dir" 
+                                    value="${project.build.outputDirectory}/${product.logic.path}"/>
+
+                                <for-each from="1" to="${product.logic.length}" property="i">
+                                    <!-- set the properties relevant to the current file -->
+                                    <set 
+                                        property="current.file" 
+                                        value="${product.logic.dir}/${product.logic.file.name}"/>
+
+                                    <!-- calculate the metadata for the file -->
+                                    <sizeof file="${current.file}" property="product.logic.${i}.size"/>
+
+                                    <md5 file="${current.file}" property="product.logic.${i}.md5"/>
+
+                                    <set 
+                                        property="product.logic.${i}.correct.uri"
+                                        value="resource:${product.logic.path}/${product.logic.file.name}"/>
+                                </for-each>
+
+                                <!-- fetch and repackage installation data zips -->
+                                <set
+                                    property="current.product.data.length" 
+                                    value="${product.data.length}"/>
+
+                                <set
+                                    property="product.data.dir" 
+                                    value="${project.build.outputDirectory}/${product.data.path}"/>
+
+                                <mkdir dir="${product.data.dir}" />
+
+                                <for-each from="1" to="${current.product.data.length}" property="i">
+
+                                    <!-- measure its size and add it to the required disk space -->
+                                    <sizeof 
+                                           file="${project.build.directory}/data,${i}.jar" 
+                                           property="current.disk.space"/>
+
+                                    <sum 
+                                        arg1="${product.disk.space}" 
+                                        arg2="${current.disk.space}" 
+                                        property="product.disk.space"/>
+
+                                    <!-- set the properties relevant to the current file -->
+                                    <set 
+                                        property="current.file" 
+                                        value="${product.data.dir}/${product.data.file.name}"/>
+
+                                    <!-- repackage (pack200, jar) and build files list -->
+                                    <!--package 
+                                            directory="${project.build.directory}/data,${i}.jar/warehouse-client-${project.version}" 
+                                            file="${current.file}"/-->
+                                    <package 
+                                            directory="${project.build.directory}/data,${i}.jar/${brandingToken}" 
+                                            file="${current.file}"/>
+
+                                    <!-- calculate the metadata for the file -->
+                                    <sizeof file="${current.file}" property="product.data.${i}.size"/>
+
+                                    <md5 file="${current.file}" property="product.data.${i}.md5"/>
+
+                                    <set 
+                                        property="product.data.${i}.correct.uri"
+                                        value="resource:${product.data.path}/${product.data.file.name}"/>
+                                </for-each>
+
+                                <set 
+                                    property="product.icon.file" 
+                                    value="${project.build.outputDirectory}/${product.icon.path}"/>
+
+                                <sizeof file="${product.icon.file}" property="product.icon.size"/>
+
+                                <md5 file="${product.icon.file}" property="product.icon.md5"/>
+
+                                <set property="product.icon.correct.uri" value="${product.icon.uri}"/>
+
+                                <!-- load the product's localizing bundle and store the locales list to 
+                                     ${product.locales.list} -->
+                                <load-locales basename="${product.bundle}" list="product.locales.list"/>
+
+                                <!-- generate the product package descriptor -->
+                                <product-descriptor file="${project.build.outputDirectory}/${package.descriptor.path}"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>default-package</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <archive>
+                                <manifestEntries>
+                                    <Product-Descriptor>${package.descriptor.path}</Product-Descriptor>
+                                </manifestEntries>
+                            </archive>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>default-jar</id>
+                        <phase>none</phase>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.artigile.warehouse</groupId>
+            <artifactId>nbi-product-warehouse-client-logic</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.artigile.warehouse</groupId>
+            <artifactId>application</artifactId>
+            <type>zip</type>
+            <scope>runtime</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.netbeans.cluster</groupId>
+                    <artifactId>platform</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.netbeans.modules</groupId>
+                    <artifactId>org-netbeans-modules-extbrowser</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.artigile.warehouse</groupId>
+                    <artifactId>warehouse-client-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.artigile.warehouse</groupId>
+                    <artifactId>branding</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+    </dependencies>
+
+</project>

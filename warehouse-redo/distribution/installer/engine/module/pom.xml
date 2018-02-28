@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2007-2011 Artigile.
+  ~ Software art development company.
+  ~ All Rights Reserved.
+  ~
+  ~ This software is the confidential and proprietary information of Artigile. ("Confidential Information").
+  ~ You shall not disclose such Confidential Information and shall use it only in accordance with the terms of the
+  ~ license agreement you entered into with Artigile software company.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.artigile.warehouse</groupId>
+        <artifactId>nbi-engine-aggregator</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>nbi-engine</artifactId>
+    <packaging>jar</packaging>
+
+    <name>Warehouse Client NBI Engine</name>
+
+    <properties>
+        <!--unpack.nbi-engine.dir>${project.build.outputDirectory}</unpack.nbi-engine.dir-->
+        <unpack.nbi-engine.dir>${project.build.directory}/nbi-engine.dependency</unpack.nbi-engine.dir>
+    </properties>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.properties</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>**/*.properties</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <targetPath>${project.build.outputDirectory}/${native.dirname}/${native.launcher.windows.i18n.dir}</targetPath>
+                <directory>src/main/${native.dirname}/${native.launcher.windows.i18n.dir}</directory>
+            </resource>
+            <resource>
+                <targetPath>${project.build.outputDirectory}/${native.dirname}/${native.launcher.unix.i18n.dir}</targetPath>
+                <directory>src/main/${native.dirname}/${native.launcher.unix.i18n.dir}</directory>
+            </resource>
+        </resources>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>unpack</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.artigile.nbi</groupId>
+                                    <artifactId>nbi-engine</artifactId>
+                                    <overWrite>false</overWrite>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.artigile.nbi</groupId>
+                                    <artifactId>nbi-engine-i18n-ru</artifactId>
+                                    <overWrite>false</overWrite>
+                                    <excludes>META-INF/MANIFEST.MF</excludes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.artigile.warehouse</groupId>
+                                    <artifactId>nbi-engine-i18n-ru</artifactId>
+                                    <overWrite>true</overWrite>
+                                    <excludes>META-INF/MANIFEST.MF</excludes>
+                                </artifactItem>
+                            </artifactItems>
+                            <outputDirectory>${unpack.nbi-engine.dir}</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <overwrite>true</overwrite>
+                            <outputDirectory>${unpack.nbi-engine.dir}/${native.dirname}/${native.launcher.windows.stub.dst.dir}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/${native.dirname}/${native.launcher.windows.stub.src.dir}</directory>
+                                    <includes>
+                                        <include>${native.launcher.windows.stub.file}</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>engine.list</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <copy todir="${project.build.outputDirectory}" overwrite="false">
+                                    <fileset dir="${unpack.nbi-engine.dir}"/>
+                                </copy>
+                                <pathconvert property="build.classes.dir.normalized" dirsep="/">
+                                    <path location="${project.build.outputDirectory}" />
+                                </pathconvert>
+                                <pathconvert pathsep="${line.separator}" property="engine.files" dirsep="/">
+                                    <fileset dir="${project.build.outputDirectory}" includes="${jar.contents.includes}" />
+                                    <mapper>
+                                        <chainedmapper>
+                                            <globmapper handledirsep="true" from="${build.classes.dir.normalized}/*" to="*" />
+                                        </chainedmapper>
+                                    </mapper>
+                                </pathconvert>
+                                <echo file="${project.build.outputDirectory}/${jar.contents.list}">${engine.files}</echo>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>default-package</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <archive>
+                                <manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
+                            </archive>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>default-jar</id>
+                        <phase>none</phase>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.artigile.nbi</groupId>
+            <artifactId>nbi-engine</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

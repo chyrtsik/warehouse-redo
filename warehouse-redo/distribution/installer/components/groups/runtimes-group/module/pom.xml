@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2007-2011 Artigile.
+  ~ Software art development company.
+  ~ All Rights Reserved.
+  ~
+  ~ This software is the confidential and proprietary information of Artigile. ("Confidential Information").
+  ~ You shall not disclose such Confidential Information and shall use it only in accordance with the terms of the
+  ~ license agreement you entered into with Artigile software company.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.artigile.warehouse</groupId>
+        <artifactId>runtimes-group-aggregator</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>runtimes-group</artifactId>
+    <packaging>jar</packaging>
+
+    <name>Runtimes Group</name>
+
+    <properties>
+        <group.uid>${project.artifactId}</group.uid>
+        <unpack.nbi-engine.dir>${project.build.outputDirectory}</unpack.nbi-engine.dir>
+    </properties>
+
+    <build>
+        <resources>
+            <resource>
+                <targetPath>${group.path}</targetPath>
+                <directory>src/main/resources/data</directory>
+                <includes>
+                    <include>${group.icon}</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.properties</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>**/*.properties</exclude>
+                </excludes>
+            </resource>
+        </resources>
+
+        <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>enforce-properties</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireProperty>
+                                    <property>group.uid</property>
+                                    <message>You must have a defined ${group.uid} - the unique identifier for the group; a registry can contain only one group with a given identifier.</message>
+                                </requireProperty>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>unpack</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <!--artifactItem>
+                                    <groupId>com.artigile.warehouse</groupId>
+                                    <artifactId>runtimes-group-i18n-en</artifactId>
+                                    <overWrite>true</overWrite>
+                                    <excludes>META-INF/MANIFEST.MF</excludes>
+                                </artifactItem-->
+                                <artifactItem>
+                                    <groupId>com.artigile.warehouse</groupId>
+                                    <artifactId>runtimes-group-i18n-ru</artifactId>
+                                    <overWrite>true</overWrite>
+                                    <excludes>META-INF/MANIFEST.MF</excludes>
+                                </artifactItem>
+                            </artifactItems>
+                            <outputDirectory>${unpack.nbi-engine.dir}</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>registry.xml</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <taskdef 
+                                    name="set" 
+                                    classname="org.netbeans.installer.infra.build.ant.SetProperty" 
+                                    classpath="${custom.tasks.cls}"/>
+                                <taskdef 
+                                    name="sizeof" 
+                                    classname="org.netbeans.installer.infra.build.ant.SizeOf"
+                                    classpathref="maven.plugin.classpath"/>
+                                <taskdef 
+                                    name="md5" 
+                                    classname="org.netbeans.installer.infra.build.ant.Md5"
+                                    classpathref="maven.plugin.classpath"/>
+                                <taskdef 
+                                    name="load-locales" 
+                                    classname="org.netbeans.installer.infra.build.ant.LoadLocales"
+                                    classpathref="maven.plugin.classpath"/>
+                                <taskdef 
+                                    name="group-descriptor" 
+                                    classname="org.netbeans.installer.infra.build.ant.GroupDescriptor"
+                                    classpathref="maven.plugin.classpath"/>
+
+                                <set 
+                                    property="group.icon.file" 
+                                    value="${project.build.outputDirectory}/${group.icon.path}"/>
+
+                                <sizeof file="${group.icon.file}" property="group.icon.size"/>
+
+                                <md5 file="${group.icon.file}" property="group.icon.md5"/>
+
+                                <set property="group.icon.correct.uri" value="${group.icon.uri}"/>
+                                    
+                                <!-- load the group's localizing bundle and store the locales list to 
+                                     ${group.locales.list} -->
+                                <load-locales basename="${group.bundle}" list="group.locales.list"/>
+
+                                <!-- generate the group package descriptor -->
+                                <group-descriptor file="${project.build.outputDirectory}/${package.descriptor.path}"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>default-package</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <archive>
+                                <manifestEntries>
+                                    <Product-Descriptor>${package.descriptor.path}</Product-Descriptor>
+                                </manifestEntries>
+                            </archive>
+                            <excludes>
+                                <exclude>data/**</exclude>
+                            </excludes>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>default-jar</id>
+                        <phase>none</phase>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    
+</project>

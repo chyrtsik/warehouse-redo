@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+AutoUpdate-Show-In-Client: false
+OpenIDE-Module-Localizing-Bundle: com/artigile/core/startup/Bundle.properties

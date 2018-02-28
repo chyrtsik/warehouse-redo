@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.artigile.warehouse.gui.core.report.view.TableReportView">
+  <grid id="27dc6" binding="mainTableViewPanel" default-binding="true" layout-manager="FormLayout">
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:d:grow"/>
+    <colspec value="fill:d:grow"/>
+    <constraints>
+      <xy x="20" y="20" width="438" height="230"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <scrollpane id="73d14" binding="scrollPane">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <forms defaultalign-horz="false" defaultalign-vert="false"/>
+        </constraints>
+        <properties>
+          <horizontalScrollBarPolicy value="30"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="4b0af" class="com.artigile.swingx.workarounds.JXTableEx" binding="table" custom-create="true" default-binding="true">
+            <constraints/>
+            <properties>
+              <autoResizeMode value="0"/>
+              <cellSelectionEnabled value="true"/>
+              <columnControlVisible value="false"/>
+              <doubleBuffered value="true"/>
+              <fillsViewportHeight value="true"/>
+              <horizontalScrollEnabled value="false"/>
+              <inheritsPopupMenu value="true"/>
+              <preferredScrollableViewportSize width="150" height="100"/>
+              <showVerticalLines value="true"/>
+              <surrendersFocusOnKeystroke value="true"/>
+              <verifyInputWhenFocusTarget value="false"/>
+            </properties>
+            <clientProperties>
+              <terminateEditOnFocusLost class="java.lang.Boolean" value="false"/>
+            </clientProperties>
+          </component>
+        </children>
+      </scrollpane>
+      <toolbar id="ec3fa" binding="toolbarPane">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="-1" height="20"/>
+          </grid>
+          <forms defaultalign-horz="false"/>
+        </constraints>
+        <properties>
+          <floatable value="false"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="10d4b" class="javax.swing.JButton" binding="refresh">
+            <constraints/>
+            <properties>
+              <enabled value="true"/>
+              <icon value="images/refresh.png"/>
+              <text value=""/>
+              <toolTipText resource-bundle="i18n/warehouse" key="table.toolbar.refresh"/>
+            </properties>
+          </component>
+          <component id="204c0" class="javax.swing.JButton" binding="sort">
+            <constraints/>
+            <properties>
+              <icon value="images/sort_options.png"/>
+              <text value=""/>
+              <toolTipText resource-bundle="i18n/warehouse" key="table.toolbar.sort"/>
+            </properties>
+          </component>
+          <component id="3be9c" class="javax.swing.JToggleButton" binding="filter">
+            <constraints/>
+            <properties>
+              <icon value="images/filter.png"/>
+              <text value=""/>
+              <toolTipText resource-bundle="i18n/warehouse" key="table.toolbar.filter"/>
+            </properties>
+          </component>
+          <component id="a9c0a" class="javax.swing.JToolBar$Separator" binding="printButtonsSpacer">
+            <constraints/>
+            <properties/>
+          </component>
+          <component id="8245e" class="javax.swing.JButton" binding="print">
+            <constraints/>
+            <properties>
+              <icon value="images/print.png"/>
+              <selected value="false"/>
+              <text value=""/>
+              <toolTipText resource-bundle="i18n/warehouse" key="table.toolbar.print"/>
+            </properties>
+          </component>
+          <component id="95db9" class="javax.swing.JButton" binding="printPreview">
+            <constraints/>
+            <properties>
+              <icon value="images/printPreview.png"/>
+              <text value=""/>
+              <toolTipText resource-bundle="i18n/warehouse" key="table.toolbar.printPreview"/>
+            </properties>
+          </component>
+          <component id="b7214" class="javax.swing.JToolBar$Separator">
+            <constraints/>
+            <properties/>
+          </component>
+          <hspacer id="64c8c">
+            <constraints/>
+          </hspacer>
+          <component id="d3b3" class="javax.swing.JButton" binding="customCommand">
+            <constraints/>
+            <properties>
+              <text value="&lt;Custom Command&gt;"/>
+            </properties>
+          </component>
+        </children>
+      </toolbar>
+    </children>
+  </grid>
+</form>

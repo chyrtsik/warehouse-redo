@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2007-2011 Artigile.
+  ~ Software development company.
+  ~ All Rights Reserved.
+  ~
+  ~ This software is the confidential and proprietary information of Artigile. ("Confidential Information").
+  ~ You shall not disclose such Confidential Information and shall use it only in accordance with the terms of the
+  ~ license agreement you entered into with Artigile software company.
+  -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="orderTransformationRules" class="com.artigile.warehouse.bl.orders.OrderTransformationRules">
+        <constructor-arg ref="globalDataChangeNotifier"/>
+    </bean>
+
+    <bean id="userGroupTransformationRules" class="com.artigile.warehouse.bl.admin.UserGroupTransformationRules">
+        <constructor-arg ref="globalDataChangeNotifier"/>
+    </bean>
+
+    <bean id="userTransformationRules" class="com.artigile.warehouse.bl.admin.UserTransformationRules">
+        <constructor-arg ref="globalDataChangeNotifier"/>
+    </bean>
+
+    <bean id="chargeOffTransformationRules" class="com.artigile.warehouse.bl.chargeoff.ChargeOffTransformationRules">
+        <constructor-arg ref="globalDataChangeNotifier"/>
+    </bean>
+
+    <bean id="complectingTaskTransformationRules" class="com.artigile.warehouse.bl.complecting.ComplectingTaskTransformationRules">
+        <constructor-arg ref="globalDataChangeNotifier"/>
+    </bean>
+
+    <bean id="uncomplectingTaskTransformationRules" class="com.artigile.warehouse.bl.complecting.UncomplectingTaskTransformationRules">
+        <constructor-arg ref="globalDataChangeNotifier"/>
+    </bean>
+
+    <bean id="contractorTransformationRules" class="com.artigile.warehouse.bl.contractors.ContractorTransformationRules">
+        <constructor-arg ref="globalDataChangeNotifier"/>
+    </bean>
+
+    <bean id="deliveryNoteTransformationRules" class="com.artigile.warehouse.bl.deliveryNote.DeliveryNoteTransformationRules">
+        <constructor-arg ref="globalDataChangeNotifier"/>
+    </bean>
+
+    <bean id="detailBatchTransformationRules" class="com.artigile.warehouse.bl.detail.DetailBatchTransformationRules">
+        <constructor-arg ref="globalDataChangeNotifier"/>
+        <property name="detailBatchDAO" ref="detailBatchDAO"/>
+        <property name="warehouseBatchDAO" ref="warehouseBatchDAO"/>
+    </bean>
+
+    <bean id="detailBatchImportTransformationRules" class="com.artigile.warehouse.bl.detail.DetailBatchImportTransformationRules">
+        <constructor-arg ref="globalDataChangeNotifier"/>
+    </bean>
+
+    <bean id="detailModelTransformationRules" class="com.artigile.warehouse.bl.detail.DetailModelTransformationRules">
+        <constructor-arg ref="globalDataChangeNotifier"/>
+    </bean>
+
+    <bean id="detailTypeTransformationRules" class="com.artigile.warehouse.bl.detail.DetailTypeTransformationRules">
+        <constructor-arg ref="globalDataChangeNotifier"/>
+        <property name="detailTypeService" ref="detailTypeService"/>
+    </bean>
+
+    <bean id="manufacturerTransformationRules" class="com.artigile.warehouse.bl.directory.ManufacturerTransformationRules">
+        <constructor-arg ref="globalDataChangeNotifier"/>
+    </bean>
+
+    <bean id="measureUnitTransformationRules" class="com.artigile.warehouse.bl.directory.MeasureUnitTransformationRules">
+        <constructor-arg ref="globalDataChangeNotifier"/>
+    </bean>
+
+    <bean id="carTransformationRules" class="com.artigile.warehouse.bl.directory.CarTransformationRules">
+        <constructor-arg ref="globalDataChangeNotifier"/>
+    </bean>
+
+    <bean id="currencyTransformationRules" class="com.artigile.warehouse.bl.finance.CurrencyTransformationRules">
+        <constructor-arg ref="globalDataChangeNotifier"/>
+    </bean>
+
+    <bean id="inventorizationTransformationRules" class="com.artigile.warehouse.bl.inventorization.inventorization.InventorizationTransformationRules">
+        <constructor-arg ref="globalDataChangeNotifier"/>
+    </bean>
+
+    <bean id="inventorizationTaskTransformationRules" class="com.artigile.warehouse.bl.inventorization.task.InventorizationTaskTransformationRules">
+        <constructor-arg ref="globalDataChangeNotifier"/>
+    </bean>
+
+    <bean id="movementTransformationRules" class="com.artigile.warehouse.bl.movement.MovementTransformationRules">
+        <constructor-arg ref="globalDataChangeNotifier"/>
+    </bean>
+
+    <bean id="wareNeedTransformationRules" class="com.artigile.warehouse.bl.needs.WareNeedTransformationRules">
+        <constructor-arg ref="globalDataChangeNotifier"/>
+    </bean>
+
+    <bean id="postingTransformationRules" class="com.artigile.warehouse.bl.postings.PostingTransformationRules">
+        <constructor-arg ref="globalDataChangeNotifier"/>
+    </bean>
+
+    <bean id="printTemplateTransformationRules" class="com.artigile.warehouse.bl.print.PrintTemplateTransformationRules">
+        <constructor-arg ref="globalDataChangeNotifier"/>
+    </bean>
+
+    <bean id="purchaseTransformationRules" class="com.artigile.warehouse.bl.purchase.PurchaseTransformationRules">
+        <constructor-arg ref="globalDataChangeNotifier"/>
+    </bean>
+
+    <bean id="storagePlaceTransformationRules" class="com.artigile.warehouse.bl.warehouse.StoragePlaceTransformationRules">
+        <constructor-arg ref="globalDataChangeNotifier"/>
+    </bean>
+
+    <bean id="warehouseTransformationRules" class="com.artigile.warehouse.bl.warehouse.WarehouseTransformationRules">
+        <constructor-arg ref="globalDataChangeNotifier"/>
+    </bean>
+
+    <bean id="warehouseBatchTransformationRules" class="com.artigile.warehouse.bl.warehouseBatch.WarehouseBatchTransformationRules">
+        <constructor-arg ref="globalDataChangeNotifier"/>
+    </bean>
+
+    <bean id="priceImportTransformationRules" class="com.artigile.warehouse.bl.priceimport.PriceImportTransformationRules">
+        <constructor-arg ref="globalDataChangeNotifier"/>
+    </bean>
+</beans>

@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2007-2013 Artigile.
+  ~ Software development company.
+  ~ All Rights Reserved.
+  ~
+  ~ This software is the confidential and proprietary information of Artigile. ("Confidential Information").
+  ~ You shall not disclose such Confidential Information and shall use it only in accordance with the terms of the
+  ~ license agreement you entered into with Artigile software company.
+  -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="userPermissionDAO" class="com.artigile.warehouse.dao.UserPermissionDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="userGroupDAO" class="com.artigile.warehouse.dao.UserGroupDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="userDAO" class="com.artigile.warehouse.dao.UserDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="menuItemDAO" class="com.artigile.warehouse.dao.MenuItemDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="printTemplateDAO" class="com.artigile.warehouse.dao.PrintTemplateDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="printTemplateInstanceDAO" class="com.artigile.warehouse.dao.PrintTemplateInstanceDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="printTemplateImagesDAO" class="com.artigile.warehouse.dao.PrintTemplateImagesDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="exchangeDAO" class="com.artigile.warehouse.dao.CurrencyExchangeDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="currencyDAO" class="com.artigile.warehouse.dao.CurrencyDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="currencyWordDAO" class="com.artigile.warehouse.dao.CurrencyWordDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="contractorDAO" class="com.artigile.warehouse.dao.ContractorDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="contactDAO" class="com.artigile.warehouse.dao.ContactDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="accountDAO" class="com.artigile.warehouse.dao.AccountDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="accountOperationDAO" class="com.artigile.warehouse.dao.AccountOperationDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="measureUnitDAO" class="com.artigile.warehouse.dao.MeasureUnitDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="manufacturerDAO" class="com.artigile.warehouse.dao.ManufacturerDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="carDAO" class="com.artigile.warehouse.dao.CarDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="detailTypeDAO" class="com.artigile.warehouse.dao.DetailTypeDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="detailFieldDAO" class="com.artigile.warehouse.dao.DetailFieldDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="detailModelDAO" class="com.artigile.warehouse.dao.DetailModelDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="detailBatchDAO" class="com.artigile.warehouse.dao.DetailBatchDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="detailSerialNumberDAO" class="com.artigile.warehouse.dao.DetailSerialNumberDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="detailBatchHistoryDAO" class="com.artigile.warehouse.dao.DetailBatchHistoryDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="detailGroupDAO" class="com.artigile.warehouse.dao.DetailGroupDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="warehouseDAO" class="com.artigile.warehouse.dao.WarehouseDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="storagePlaceDAO" class="com.artigile.warehouse.dao.StoragePlaceDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="loadPlaceDAO" class="com.artigile.warehouse.dao.LoadPlaceDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="warehouseBatchDAO" class="com.artigile.warehouse.dao.WarehouseBatchDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="orderDAO" class="com.artigile.warehouse.dao.OrderDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="orderProcessingInfoDAO" class="com.artigile.warehouse.dao.OrderProcessingInfoDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>    
+    </bean>
+
+    <bean id="orderSubItemDAO" class="com.artigile.warehouse.dao.OrderSubItemDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="orderItemsDAO" class="com.artigile.warehouse.dao.OrderItemsDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="complectingTaskDAO" class="com.artigile.warehouse.dao.ComplectingTaskDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="uncomplectingTaskDAO" class="com.artigile.warehouse.dao.UncomplectingTaskDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="postingDAO" class="com.artigile.warehouse.dao.PostingDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="postingItemDAO" class="com.artigile.warehouse.dao.PostingItemDAOImpl">
+        <property name="postingsDAO" ref="postingDAO"/>
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="unclassifiedCatalogItemDAO" class="com.artigile.warehouse.dao.UnclassifiedCatalogItemDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="reportStateDAO" class="com.artigile.warehouse.dao.ReportStateDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="columnStateDAO" class="com.artigile.warehouse.dao.ColumnStateDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="wareNeedDAO" class="com.artigile.warehouse.dao.WareNeedDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="wareNeedItemDAO" class="com.artigile.warehouse.dao.WareNeedItemDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+        <property name="wareNeedDAO" ref="wareNeedDAO"/>
+    </bean>
+
+    <bean id="purchaseDAO" class="com.artigile.warehouse.dao.PurchaseDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="purchaseItemDAO" class="com.artigile.warehouse.dao.PurchaseItemDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+        <property name="purchaseDAO" ref="purchaseDAO"/>
+    </bean>
+
+    <bean id="inventorizationDAO" class="com.artigile.warehouse.dao.InventorizationDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="inventorizationItemsDAO" class="com.artigile.warehouse.dao.InventorizationItemsDAOImpl">
+        <property name="inventorizationDAO" ref="inventorizationDAO"/>
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="frameStateDAO" class="com.artigile.warehouse.dao.FrameStateDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="inventorizationTaskDAO" class="com.artigile.warehouse.dao.InventorizationTaskDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="chargeOffDAO" class="com.artigile.warehouse.dao.ChargeOffDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="deliveryNoteDAO" class="com.artigile.warehouse.dao.DeliveryNoteDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="deliveryNoteItemsDAO" class="com.artigile.warehouse.dao.DeliveryNoteItemsDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="movementDAO" class="com.artigile.warehouse.dao.MovementDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="movementItemDAO" class="com.artigile.warehouse.dao.MovementItemDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="lockGroupDAO" class="com.artigile.warehouse.dao.LockGroupDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="propertyDAO" class="com.artigile.warehouse.dao.PropertyDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="paymentDAO" class="com.artigile.warehouse.dao.PaymentDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="contractorProductDAO" class="com.artigile.warehouse.dao.ContractorProductDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="priceImportDAO" class="com.artigile.warehouse.dao.PriceImportDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="sellerSettingsDAO" class="com.artigile.warehouse.dao.SellerSettingsDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="stickerPrintParamDAO" class="com.artigile.warehouse.dao.StickerPrintParamDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="storedFileDAO" class="com.artigile.warehouse.dao.StoredFileDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="licenseDAO" class="com.artigile.warehouse.dao.LicenseDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="dataImportDAO" class="com.artigile.warehouse.dao.DataImportDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="detailBatchImportDAO" class="com.artigile.warehouse.dao.DetailBatchImportDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="emailConfigDAO" class="com.artigile.warehouse.dao.EmailConfigDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+</beans>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2007-2011 Artigile.
+  ~ Software art development company.
+  ~ All Rights Reserved.
+  ~
+  ~ This software is the confidential and proprietary information of Artigile. ("Confidential Information").
+  ~ You shall not disclose such Confidential Information and shall use it only in accordance with the terms of the
+  ~ license agreement you entered into with Artigile software company.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.artigile.warehouse</groupId>
+        <artifactId>installer-aggregator</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>components-aggregator</artifactId>
+    <packaging>pom</packaging>
+
+    <name>Components Aggregator</name>
+
+    <modules>
+        <module>groups</module>
+        <module>products</module>
+    </modules>
+
+    <properties>
+        <!-- Miscellaneous. Properties that are used elsewhere. -->
+        
+        <!--
+            these properties control the environment for the jarsigner process
+            * ${jarsigner.enabled} - whether to sign jars
+            * ${jarsigner.xmx} - max heap size for the jarsigner process
+        -->
+        <jarsigner.enabled>false</jarsigner.enabled>
+        <jarsigner.xmx>1024m</jarsigner.xmx>
+
+        <!--
+            these properties control the environment for the pack200 and unpack200 processes
+            * ${pack200.enabled} - whether to repackage jars (can be specified in each product)
+            * ${pack200.xmx} - -Xmx jvm argument value
+            * ${pack200.perm.size} - -XX:PermSize jvm argument value
+            * ${pack200.max.perm.size} - -XX:MaxPermSize jvm argument value
+        -->
+        <pack200.enabled>false</pack200.enabled>
+        <pack200.xmx>768m</pack200.xmx>
+        <pack200.perm.size>32m</pack200.perm.size>
+        <pack200.max.perm.size>512m</pack200.max.perm.size>
+    </properties>
+
+</project>

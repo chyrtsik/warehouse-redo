@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2007-2013 Artigile.
+  ~ Software development company.
+  ~ All Rights Reserved.
+  ~
+  ~ This software is the confidential and proprietary information of Artigile. ("Confidential Information").
+  ~ You shall not disclose such Confidential Information and shall use it only in accordance with the terms of the
+  ~ license agreement you entered into with Artigile software company.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.artigile</groupId>
+        <artifactId>artigile-parent</artifactId>
+        <version>1.0.13-SNAPSHOT</version>
+    </parent>
+
+    <groupId>com.artigile.warehouse</groupId>
+    <artifactId>warehouse-client-parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>Warehouse Client Parent POM</name>
+
+    <inceptionYear>2010</inceptionYear>
+
+    <modules>
+        <module>modules</module>
+        <module>distribution</module>
+    </modules>
+
+    <scm>
+        <connection>scm:svn:https://server01:8443/svn/artigile-warehouse-client/trunk</connection>
+        <developerConnection>scm:svn:https://server01:8443/svn/artigile-warehouse-client/trunk</developerConnection>
+        <url>https://server01:8443/svn/artigile-warehouse-client/trunk</url>
+    </scm>
+
+    <properties>
+        <netbeans.version>RELEASE74</netbeans.version>
+        <brandingToken>whclient</brandingToken>
+        <maven.deploy.skip>true</maven.deploy.skip>
+    </properties>
+
+    <profiles>
+        <!-- Development version of application -->
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <hibernate.showSql>true</hibernate.showSql>
+            </properties>
+        </profile>
+
+        <!-- Full version of warehouse client application -->
+        <profile>
+            <id>full</id>
+            <properties>
+                <hibernate.showSql>false</hibernate.showSql>
+            </properties>
+        </profile>
+
+        <!-- Warehouse client application with price list comparison features only -->
+        <profile>
+            <id>price-list</id>
+            <properties>
+                <hibernate.showSql>false</hibernate.showSql>
+            </properties>
+        </profile>
+
+        <!-- Profile for tests running -->
+        <profile>
+            <id>run-tests</id>
+            <properties>
+                <maven.test.skip>false</maven.test.skip>
+                <maven.skip.tests>false</maven.skip.tests>
+                <maven.test.failure.ignore>false</maven.test.failure.ignore>
+            </properties>
+        </profile>
+    </profiles>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>nbm-maven-plugin</artifactId>
+                    <configuration>
+                        <brandingToken>${brandingToken}</brandingToken>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+</project>

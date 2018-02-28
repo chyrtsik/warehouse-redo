@@ -1,0 +1,1 @@
+alter table DeliveryNote add blankNumber VARCHAR(32) NULL;

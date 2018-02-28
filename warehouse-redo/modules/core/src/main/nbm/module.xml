@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2007-2011 Artigile.
+  ~ Software art development company.
+  ~ All Rights Reserved.
+  ~
+  ~ This software is the confidential and proprietary information of Artigile. ("Confidential Information").
+  ~ You shall not disclose such Confidential Information and shall use it only in accordance with the terms of the
+  ~ license agreement you entered into with Artigile software company.
+  -->
+
+<nbm>
+    <!--
+    <moduleType>autoload</moduleType>
+    <codeNameBase>com.artigile.warehouse.client.core/1</codeNameBase>
+    <licenseName>Apache License, Version 2.0</licenseName>
+    <licenseFile>license.txt</licenseFile>
+    -->
+</nbm>

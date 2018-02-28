@@ -1,0 +1,26 @@
+<!--
+  ~ Copyright (c) 2007-2013 Artigile.
+  ~ Software development company.
+  ~ All Rights Reserved.
+  ~
+  ~ This software is the confidential and proprietary information of Artigile. ("Confidential Information").
+  ~ You shall not disclose such Confidential Information and shall use it only in accordance with the terms of the
+  ~ license agreement you entered into with Artigile software company.
+  -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="printTemplatePluginFactory" class="com.artigile.warehouse.gui.core.print.PrintTemplatePluginFactoryImpl">
+        <constructor-arg>
+            <array>
+                <ref bean="jasperReportsPrintTemplatePlugin"/>
+            </array>
+        </constructor-arg>
+    </bean>
+
+    <bean id="jasperReportsPrintTemplatePlugin" class="com.artigile.warehouse.gui.core.print.jasper.JasperPrintTemplatePlugin">
+        <property name="storedFileService" ref="storedFileService"/>
+    </bean>
+</beans>

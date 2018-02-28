@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2007-2011 Artigile.
+  ~ Software art development company.
+  ~ All Rights Reserved.
+  ~
+  ~ This software is the confidential and proprietary information of Artigile. ("Confidential Information").
+  ~ You shall not disclose such Confidential Information and shall use it only in accordance with the terms of the
+  ~ license agreement you entered into with Artigile software company.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.artigile.warehouse</groupId>
+        <artifactId>components-aggregator</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>products-aggregator</artifactId>
+    <packaging>pom</packaging>
+
+    <name>Products Aggregator</name>
+
+    <modules>
+        <module>warehouse-client</module>
+        <module>mysql</module>
+    </modules>
+
+    <properties>
+        <package.descriptor.path>registry.xml</package.descriptor.path>
+
+        <product.path>products/${product.uid}/${product.version}/${product.platforms}</product.path>
+        <product.logic.path>${product.path}/logic</product.logic.path>
+        <product.data.path>${product.path}/data</product.data.path>
+        <product.icon.path>${product.path}/${product.icon}</product.icon.path>
+
+        <!--
+            path to the product's icon; the contents of this file will be copied to the
+            file identified by ${product.icon.file}
+        -->
+        <product.icon>icon.png</product.icon>
+
+        <!--
+            path to the product's localizing bundle; the bundle is expected to contain
+            two properties: 'product.display.name' and 'product.description', which will be 
+            used in creating the registry entry for this product
+        -->
+        <product.bundle>src/main/resources/data/Bundle</product.bundle>
+        
+        <!-- uri of the product's icon, which will appear in the registry -->
+        <product.icon.uri>resource:${product.icon.path}</product.icon.uri>
+
+        <product.dist.file.name>${product.uid},${product.version},${product.platforms}.jar</product.dist.file.name>
+
+        <!-- name of the product's configuration logic jar with index ${i} -->
+        <product.logic.file.name>logic,${i}.jar</product.logic.file.name>
+        <product.data.file.name>data,${i}.jar</product.data.file.name>
+
+        <!--
+            ${product.platforms} - the list of platforms that are supported by this 
+              product (note that this property is not related to native libraries)
+        -->
+        <product.platforms>windows linux solaris-sparc solaris-x86 macosx-ppc macosx-x86</product.platforms>
+
+        <!--
+            modificator for the required disk space parameter; the core value will be the
+            sum of unzipped unstallation data files
+            * the measurement unit is one byte
+        -->
+        <product.disk.space.modificator>0</product.disk.space.modificator>
+
+        <!--
+            product's requirements (i.e. other products that should be installed
+            in order for this product to succesfully install and function)
+            * ${product.requirements.length} - total number of the requirements
+            * indices should start with 1
+        -->
+        <product.requirements.length>0</product.requirements.length>
+        <product.requirements.1.uid/>
+        <product.requirements.1.version-lower/>
+        <product.requirements.1.version-upper/>
+
+        <!--
+            Miscellaneous product properties.
+            * ${product.status} - default status that the product will have in the 
+              registry. it is meant to be always "not-installed", unless you want 
+              something really exotic
+            * ${product.offset} - order of the product's node among its parent's 
+              children, the bigger the offset value, the further the product's node will 
+              be
+            * ${product.expand} - whether to automatically expand the product's node in 
+              the components tree or not; 'true'/'false'
+            * ${product.visible} - whether the product's node is visible or not (note 
+              that this value will be modified at nbi runtime, 'true' may become 'false' 
+              if the product is filtered out); 'true'/'false'
+            * ${product.features} - list of features that this porduct belongs to; the 
+              list should be space-separated
+        -->
+        <product.status>not-installed</product.status>
+        <product.offset>20000</product.offset>
+        <product.expand>false</product.expand>
+        <product.visible>true</product.visible>
+        <product.features/>
+
+        <!--
+            each product requirement can have several alternative requirements blocks
+            each alternative requirement block has several requirements
+            * product.requirements.{i}.alternatives.length - 
+              total number of alternative requirements blocks
+            * product.requirements.{i}.alternatives.{j}.requirements.length -
+              total number of requirements in specific OR block
+            * if length is not specified it is taken as zero
+            * indices should start with 1
+        -->
+        <product.requirements.1.alternatives.length/>
+        <product.requirements.1.alternatives.1.requirements.length/>
+        <product.requirements.1.alternatives.1.requirements.1.uid/>
+        <product.requirements.1.alternatives.1.requirements.1.version-lower/>
+        <product.requirements.1.alternatives.1.requirements.1.version-upper/>
+
+        <!--
+            product's conflicts (i.e. other products that prevent this product from 
+            functioning correctly, and thus cannot be installed together with it)
+            * ${product.conflicts.length} - total number of the conflicts
+            * indices should start with 1
+        -->
+        <product.conflicts.length>0</product.conflicts.length>
+        <product.conflicts.1.uid/>
+        <product.conflicts.1.version-lower/>
+        <product.conflicts.1.version-upper/>
+
+        <!--
+            other products that should be installed prior to this product; these 
+            dependencies do not imply that the dependent product will be installed at 
+            all, but if both the current and the dependent product are selected for 
+            installation, the latter will be installed first
+            * ${product.install-afters.length} - total number of the install-afters
+            * indices should start with 1
+        -->
+        <product.install-afters.length>0</product.install-afters.length>
+        <product.install-afters.1.uid/>
+
+        <!--
+            additional product's properties; these will appear in the product's descriptor 
+            and in the registry in the form of <property name="[name]">value</property>
+            tags.
+            * ${product.properties.length} - total number of the properties
+            * indices should start with 1
+            * properties are not i18n compliant
+            * ${product.properties.1.name}
+            * ${product.properties.1.value}
+        -->
+        <product.properties.length>0</product.properties.length>
+        <product.properties.1.name/>
+        <product.properties.1.value/>
+    </properties>
+
+</project>

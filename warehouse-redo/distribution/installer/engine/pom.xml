@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2007-2011 Artigile.
+  ~ Software art development company.
+  ~ All Rights Reserved.
+  ~
+  ~ This software is the confidential and proprietary information of Artigile. ("Confidential Information").
+  ~ You shall not disclose such Confidential Information and shall use it only in accordance with the terms of the
+  ~ license agreement you entered into with Artigile software company.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.artigile.warehouse</groupId>
+        <artifactId>installer-aggregator</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>nbi-engine-aggregator</artifactId>
+    <packaging>pom</packaging>
+
+    <name>Warehouse NBI Engine Aggregator</name>
+
+    <properties>
+        <native.dist.dir>dist</native.dist.dir>
+        <native.dirname>native</native.dirname>
+        <native.jnilib.dir>jnilib</native.jnilib.dir>
+        <native.launcher.dir>launcher</native.launcher.dir>
+        <native.cleaner.dir>cleaner</native.cleaner.dir>
+
+        <!-- engine.list file content mask -->
+        <jar.contents.list>data/engine.list</jar.contents.list>
+        <!--jar.contents.includes>native/** org/** com/apple/** data/clioptions.list data/engine*.properties</jar.contents.includes-->
+        <jar.contents.includes>native/** com/artigile/** com/mysql/** org/** com/apple/** data/clioptions.list data/engine*.properties</jar.contents.includes>
+
+        <!-- Native Library properties -->
+        <native.jnilib.dir.windows>${native.jnilib.dir}/windows</native.jnilib.dir.windows>
+        <native.jnilib.dir.linux>${native.jnilib.dir}/linux</native.jnilib.dir.linux>
+        <native.jnilib.dir.solaris-x86>${native.jnilib.dir}/solaris-x86</native.jnilib.dir.solaris-x86>
+        <native.jnilib.dir.solaris-sparc>${native.jnilib.dir}/solaris-sparc</native.jnilib.dir.solaris-sparc>
+        <native.jnilib.dir.macosx>${native.jnilib.dir}/macosx</native.jnilib.dir.macosx>
+
+        <native.jnilib.file.windows.i386>windows-x86.dll</native.jnilib.file.windows.i386>
+        <native.jnilib.file.windows.amd64>windows-x64.dll</native.jnilib.file.windows.amd64>
+        <native.jnilib.file.windows.ia64>windows-ia64.dll</native.jnilib.file.windows.ia64>
+        <native.jnilib.file.linux.i386>linux.so</native.jnilib.file.linux.i386>
+        <native.jnilib.file.linux.amd64>linux-amd64.so</native.jnilib.file.linux.amd64>
+        <native.jnilib.file.solaris-x86>solaris-x86.so</native.jnilib.file.solaris-x86>
+        <native.jnilib.file.solaris-sparc>solaris-sparc.so</native.jnilib.file.solaris-sparc>
+        <native.jnilib.file.solaris-amd64>solaris-amd64.so</native.jnilib.file.solaris-amd64>
+        <native.jnilib.file.solaris-sparcv9>solaris-sparcv9.so</native.jnilib.file.solaris-sparcv9>
+        <native.jnilib.file.macosx>macosx.dylib</native.jnilib.file.macosx>
+        
+        <!-- Native Launcher Properties -->
+        <native.launcher.windows.dir>${native.launcher.dir}/windows</native.launcher.windows.dir>
+        <native.launcher.windows.stub.file>nlw.exe</native.launcher.windows.stub.file>
+        <native.launcher.windows.stub.src.dir>${native.launcher.windows.dir}/dist</native.launcher.windows.stub.src.dir>
+        <native.launcher.windows.stub.dst.dir>${native.launcher.windows.dir}</native.launcher.windows.stub.dst.dir>
+        <native.launcher.windows.i18n.dir>${native.launcher.windows.dir}/i18n</native.launcher.windows.i18n.dir>
+        <native.launcher.unix.dir>${native.launcher.dir}/unix</native.launcher.unix.dir>
+        <native.launcher.unix.stub.file>launcher.sh</native.launcher.unix.stub.file>
+        <native.launcher.unix.stub.src.dir>${native.launcher.unix.dir}/src</native.launcher.unix.stub.src.dir>
+        <native.launcher.unix.stub.dst.dir>${native.launcher.unix.dir}</native.launcher.unix.stub.dst.dir>
+        <native.launcher.unix.i18n.dir>${native.launcher.unix.dir}/i18n</native.launcher.unix.i18n.dir>
+
+        <!-- Native on-exit cleaner properties -->
+        <native.cleaner.windows.dir>${native.cleaner.dir}/windows</native.cleaner.windows.dir>
+        <native.cleaner.windows.srcdir>${native.cleaner.windows.dir}/dist</native.cleaner.windows.srcdir>
+        <native.cleaner.windows.file>cleaner.exe</native.cleaner.windows.file>
+        <native.cleaner.unix.dir>${native.cleaner.dir}/unix</native.cleaner.unix.dir>
+        <native.cleaner.unix.srcdir>${native.cleaner.unix.dir}/src</native.cleaner.unix.srcdir>
+        <native.cleaner.unix.file>cleaner.sh</native.cleaner.unix.file>
+
+        <display-version>${product.warehouse.client.version}</display-version>
+    </properties>
+
+    <modules>
+        <module>module-i18n-kit</module>
+        <module>module</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.artigile.nbi</groupId>
+                <artifactId>nbi-engine-i18n-ru</artifactId>
+                <version>${nbi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.artigile.warehouse</groupId>
+                <artifactId>nbi-engine-i18n-ru</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>

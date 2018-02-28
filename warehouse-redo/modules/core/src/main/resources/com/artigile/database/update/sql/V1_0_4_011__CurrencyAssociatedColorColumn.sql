@@ -1,0 +1,1 @@
+alter table Currency add associatedColor int default -1;

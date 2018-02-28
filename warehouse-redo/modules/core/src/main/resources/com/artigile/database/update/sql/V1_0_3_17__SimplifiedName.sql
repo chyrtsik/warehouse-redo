@@ -1,0 +1,1 @@
+alter table ContractorProduct add simplifiedName varchar(255) default null;

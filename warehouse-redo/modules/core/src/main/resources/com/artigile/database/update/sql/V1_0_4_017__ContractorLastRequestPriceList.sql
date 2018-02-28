@@ -1,0 +1,1 @@
+ALTER TABLE Contractor ADD COLUMN priceListRequest DATETIME;

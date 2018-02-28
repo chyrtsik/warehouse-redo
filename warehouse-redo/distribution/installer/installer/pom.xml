@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2007-2011 Artigile.
+  ~ Software art development company.
+  ~ All Rights Reserved.
+  ~
+  ~ This software is the confidential and proprietary information of Artigile. ("Confidential Information").
+  ~ You shall not disclose such Confidential Information and shall use it only in accordance with the terms of the
+  ~ license agreement you entered into with Artigile software company.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.artigile.warehouse</groupId>
+        <artifactId>installer-aggregator</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>warehouse-client-installer</artifactId>
+    <packaging>pom</packaging>
+
+    <name>Warehouse Client Installer</name>
+
+    <properties>
+        <!--
+            modificator for the required disk space parameter; the core value will be the
+            sum of unzipped unstallation data files
+            * the measurement unit is one byte
+        -->
+        <product.disk.space.modificator>0</product.disk.space.modificator>
+
+        <registry-temp.dir>${project.build.directory}/registry-temp</registry-temp.dir>
+        <cache.dir>${project.build.directory}/cache</cache.dir>
+        <package.descriptor.path>registry.xml</package.descriptor.path>
+        <nbi-engine.dir>${project.build.directory}/nbi-engine</nbi-engine.dir>
+
+        <installer.target.dir>${project.build.directory}/dist</installer.target.dir>
+        <installer.target.file>warehouse-client-windows-ml.exe</installer.target.file>
+
+        <!-- Default configuration for local deployment -->
+        <installer.deploy.dir>${installer.target.dir}</installer.deploy.dir>
+        <installer.deploy.file>${installer.target.file}</installer.deploy.file>
+
+        <!-- Default configuration for remote deployment -->
+        <installer.deploy.ssh.host>Host not set!</installer.deploy.ssh.host>
+        <installer.deploy.ssh.port>22</installer.deploy.ssh.port>
+        <installer.deploy.ssh.user>User not set!</installer.deploy.ssh.user>
+        <installer.deploy.ssh.password>Password not set!</installer.deploy.ssh.password>
+    </properties>
+
+    <profiles>
+        <!-- Full version of warehouse client application -->
+        <profile>
+            <id>full</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <installer.deploy.file>warehouse-${product.warehouse.client.version}.exe</installer.deploy.file>
+            </properties>
+        </profile>
+
+        <!-- Warehouse client application with price list comparison features only -->
+        <profile>
+            <id>price-list</id>
+            <properties>
+                <installer.deploy.file>pricelist-${product.warehouse.client.version}.exe</installer.deploy.file>
+            </properties>
+        </profile>
+
+        <!-- Profile for deploy application into local folder -->
+        <profile>
+            <id>deploy-local</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+
+                        <dependencies>
+                        </dependencies>
+
+                        <executions>
+                            <execution>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <delete includeemptydirs="true" verbose="true">
+                                            <fileset dir="${installer.deploy.dir}" includes="**/*"/>
+                                        </delete>
+                                        <copy file="${installer.target.dir}/${installer.target.file}"
+                                              tofile="${installer.deploy.dir}/${installer.deploy.file}"
+                                              overwrite="true"/>
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>deploy-remote</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.apache.ant</groupId>
+                                <artifactId>ant-jsch</artifactId>
+                                <version>1.7.1</version>
+                            </dependency>
+
+                            <dependency>
+                                <groupId>com.jcraft</groupId>
+                                <artifactId>jsch</artifactId>
+                                <version>0.1.42</version>
+                            </dependency>
+                        </dependencies>
+
+                        <executions>
+                            <execution>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <sshexec host="${installer.deploy.ssh.host}" port="${installer.deploy.ssh.port}" username="${installer.deploy.ssh.user}" password="${installer.deploy.ssh.password}" trust="true" command="rm -rf ${installer.deploy.dir}/**" />
+                                        <scp port="${installer.deploy.ssh.port}" trust="true" verbose="true" password="${installer.deploy.ssh.password}" localFile="${installer.target.dir}/${installer.target.file}" remoteTofile="${installer.deploy.ssh.user}@${installer.deploy.ssh.host}:${installer.deploy.dir}/${installer.deploy.file}" />
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-nbi-engine</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.artigile.warehouse</groupId>
+                                    <artifactId>nbi-engine</artifactId>
+                                    <destFileName>engine.jar</destFileName>
+                                    <outputDirectory>${registry-temp.dir}</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.artigile.warehouse</groupId>
+                                    <artifactId>runtimes-group</artifactId>
+                                    <destFileName>runtimes-group.jar</destFileName>
+                                    <outputDirectory>${cache.dir}</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.artigile.warehouse</groupId>
+                                    <artifactId>nbi-product-warehouse-client</artifactId>
+                                    <destFileName>nbi-product-warehouse-client.jar</destFileName>
+                                    <outputDirectory>${cache.dir}</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.artigile.warehouse</groupId>
+                                    <artifactId>nbi-product-mysql</artifactId>
+                                    <destFileName>nbi-product-mysql.jar</destFileName>
+                                    <outputDirectory>${cache.dir}</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.oracle</groupId>
+                                    <artifactId>com.oracle.jre</artifactId>
+                                    <classifier>win64-jre-zipexe</classifier>
+                                    <type>exe</type>
+                                    <destFileName>jre-windows-x64.exe</destFileName>
+                                    <outputDirectory>${cache.dir}</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>registry.xml</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <verbose>true</verbose>
+                            <debug>true</debug>
+                            <target>
+                                <taskdef 
+                                    name="release-package-filesystem"
+                                    classname="org.netbeans.installer.infra.build.ant.registries.AddPackage"
+                                    classpathref="maven.plugin.classpath"/>
+                                <taskdef 
+                                    name="create-bundle" 
+                                    classname="org.netbeans.installer.infra.build.ant.registries.CreateBundle"
+                                    classpathref="maven.plugin.classpath"/>
+
+                                <release-package-filesystem
+                                    root="${registry-temp.dir}"
+                                    uid=""
+                                    version=""
+                                    platforms="windows"
+                                    archive="${cache.dir}/runtimes-group.jar"/>
+
+                                <release-package-filesystem
+                                    root="${registry-temp.dir}"
+                                    uid=""
+                                    version=""
+                                    platforms="windows"
+                                    archive="${cache.dir}/nbi-product-warehouse-client.jar"/>
+
+                                <release-package-filesystem
+                                    root="${registry-temp.dir}"
+                                    uid="runtimes-group"
+                                    version=""
+                                    platforms="windows"
+                                    archive="${cache.dir}/nbi-product-mysql.jar"/>
+
+                                <mkdir dir="${installer.target.dir}"/>
+
+                                <create-bundle root="${registry-temp.dir}" 
+                                           platform="windows" 
+                                           target="${installer.target.dir}/${installer.target.file}">
+                                    <component uid="nbi-product-warehouse-client" version="${product.warehouse.client.version}"/>
+                                    <component uid="nbi-product-mysql" version="${product.mysql.version}"/>
+                                    <property name="nbi.bundled.jvm.file" value="${cache.dir}/jre-windows-x64.exe"/>
+                                </create-bundle>
+
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

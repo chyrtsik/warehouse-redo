@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.artigile.warehouse.gui.menuitems.details.history.DetailOperationHistoryFilterForm">
+  <grid id="27dc6" binding="contentPane" layout-manager="GridLayoutManager" row-count="5" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="20" y="20" width="316" height="345"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <component id="5134c" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text resource-bundle="i18n/warehouse" key="detail.batch.history.filter.period.start"/>
+        </properties>
+      </component>
+      <component id="44e6d" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text resource-bundle="i18n/warehouse" key="detail.batch.history.filter.period.end"/>
+        </properties>
+      </component>
+      <component id="43fa" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text resource-bundle="i18n/warehouse" key="detail.batch.history.filter.warehouses"/>
+        </properties>
+      </component>
+      <scrollpane id="941fa">
+        <constraints>
+          <grid row="3" column="0" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <minimum-size width="-1" height="150"/>
+          </grid>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="a4ac6" class="javax.swing.JList" binding="fieldWarehouses">
+            <constraints/>
+            <properties>
+              <model>
+                <item value="item1"/>
+                <item value="item2"/>
+                <item value="item3"/>
+                <item value="item4"/>
+                <item value="item5"/>
+              </model>
+            </properties>
+          </component>
+        </children>
+      </scrollpane>
+      <component id="3a99e" class="org.jdesktop.swingx.JXDatePicker" binding="fieldPeriodStart">
+        <constraints>
+          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <lightWeightPopupEnabled value="true"/>
+        </properties>
+      </component>
+      <component id="dc1e1" class="org.jdesktop.swingx.JXDatePicker" binding="fieldPeriodEnd">
+        <constraints>
+          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <lightWeightPopupEnabled value="true"/>
+        </properties>
+      </component>
+      <component id="6b7a5" class="javax.swing.JCheckBox" binding="fieldPrintEmptyItems">
+        <constraints>
+          <grid row="4" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text resource-bundle="i18n/warehouse" key="detail.batch.history.filter.print.empty.items"/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>

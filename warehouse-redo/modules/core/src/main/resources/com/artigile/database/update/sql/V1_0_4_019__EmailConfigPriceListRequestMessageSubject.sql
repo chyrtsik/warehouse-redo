@@ -1,0 +1,1 @@
+ALTER TABLE email_config CHANGE messageSubject priceListRequestMessageSubject VARCHAR (100);

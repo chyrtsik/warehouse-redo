@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2007-2013 Artigile.
+  ~ Software development company.
+  ~ All Rights Reserved.
+  ~
+  ~ This software is the confidential and proprietary information of Artigile. ("Confidential Information").
+  ~ You shall not disclose such Confidential Information and shall use it only in accordance with the terms of the
+  ~ license agreement you entered into with Artigile software company.
+  -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <import resource="classpath:config/applicationContext-mail.xml"/>
+    <import resource="classpath:config/applicationContext-hibernate.xml"/>
+    <import resource="classpath:config/applicationContext-dao.xml"/>
+    <import resource="classpath:config/applicationContext-service.xml"/>
+    <import resource="classpath:config/applicationContext-transformation.xml"/>
+    <import resource="classpath:config/applicationContext-ui.xml"/>
+
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+        <property name="properties" ref="applicationProperties" />
+    </bean>
+
+    <bean id="applicationProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="locations">
+            <list>
+                <value>classpath:/config/database.properties</value>
+                <value>classpath:/config/email.properties</value>
+                <value>classpath:/config/version.properties</value>
+                <value>classpath:/config/application.properties</value>
+            </list>
+        </property>
+    </bean>
+
+</beans>

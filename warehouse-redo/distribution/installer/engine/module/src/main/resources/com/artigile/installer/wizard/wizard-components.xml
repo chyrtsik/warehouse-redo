@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wizard xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="wizard-components.xsd">
+    <component 
+        class="com.artigile.installer.wizard.components.actions.InitializeAction"/>
+    <component 
+        class="com.artigile.installer.wizard.components.panels.WelcomePanel"/>
+    <component 
+        class="com.artigile.installer.wizard.components.sequences.MainSequence"/>
+    <component 
+        class="org.netbeans.installer.wizard.components.sequences.CreateBundleSequence"/>
+    <component 
+        class="org.netbeans.installer.wizard.components.actions.FinalizeRegistryAction"/>
+</wizard>

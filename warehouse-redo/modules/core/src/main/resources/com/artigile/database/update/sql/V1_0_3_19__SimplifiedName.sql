@@ -1,0 +1,1 @@
+alter table ContractorProduct modify simplifiedName varchar(255) not null;

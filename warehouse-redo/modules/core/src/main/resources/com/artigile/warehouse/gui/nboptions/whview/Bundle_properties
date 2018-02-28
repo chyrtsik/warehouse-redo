@@ -1,0 +1,25 @@
+#
+# Copyright (c) 2007-2011 Artigile.
+# Software development company.
+# All Rights Reserved.
+#
+# This software is the confidential and proprietary information of Artigile. ("Confidential Information").
+# You shall not disclose such Confidential Information and shall use it only in accordance with the terms of the
+# license agreement you entered into with Artigile software company.
+#
+
+warehouse.options.view.title=View
+warehouse.options.view.keywords=view
+warehouse.options.view.keywords.category=View
+
+warehouse.options.view.splitter.orientation.title=Orientation of splitter in the reports
+
+warehouse.options.view.format.number.title=Numbers format
+warehouse.options.view.format.number.pattern=Pattern: *
+warehouse.options.view.format.number.separator.decimal=Separator 1: *
+warehouse.options.view.format.number.separator.decimal.desc=between integer and fractional parts of number (1 character)
+warehouse.options.view.format.number.separator.group=Separator 2: *
+warehouse.options.view.format.number.separator.group.desc=between groups of digits in integer part of number (1 character)
+warehouse.options.view.format.number.separator.example=Example:
+warehouse.options.view.format.number.notValid=Invalid number format
+

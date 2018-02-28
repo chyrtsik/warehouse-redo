@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2007-2011 Artigile.
+  ~ Software art development company.
+  ~ All Rights Reserved.
+  ~
+  ~ This software is the confidential and proprietary information of Artigile. ("Confidential Information").
+  ~ You shall not disclose such Confidential Information and shall use it only in accordance with the terms of the
+  ~ license agreement you entered into with Artigile software company.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.artigile.warehouse</groupId>
+        <artifactId>components-aggregator</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>groups-aggregator</artifactId>
+    <packaging>pom</packaging>
+
+    <name>Groups Aggregator</name>
+
+    <modules>
+        <module>runtimes-group</module>
+    </modules>
+    
+    <properties>
+        <!-- Various directories and file paths that will be used for packaging the group. -->
+
+        <package.descriptor.path>registry.xml</package.descriptor.path>
+        <group.path>groups/${group.uid}</group.path>
+        <group.icon.path>${group.path}/${group.icon}</group.icon.path>
+        
+        <!--
+            path to the group's icon; the contents of this file will be copied to the
+            file identified by ${group.icon.file}
+        -->
+        <group.icon>icon.png</group.icon>
+
+        <!--
+            path to the group's localizing bundle; the bundle is expected to contain
+            two properties: 'group.display.name' and 'group.description', which will be 
+            used in creating the registry entry for this group
+        -->
+        <!--group.bundle>src/main/resources/data/Bundle</group.bundle-->
+        <group.bundle>${project.build.outputDirectory}/data/Bundle</group.bundle>
+        
+        <!-- uri of the group's icon, which will appear in the registry -->
+        <group.icon.uri>resource:${group.icon.path}</group.icon.uri>
+        
+        <!--
+            Miscellaneous group properties.
+            * ${group.offset} - order of the group's node among its parent's children, 
+              the bigger the offset value, the further the group's node will be
+            * ${group.expand} - whether to automatically expand the group's node in the 
+              components tree or not; 'true'/'false'
+            * ${group.visible} - whether the group's node is visible or not (note that 
+              this value will be modified at nbi runtime, 'true' may become 'false' if 
+              the group is filtered out); 'true'/'false'
+        -->
+        <group.offset>10000</group.offset>
+        <group.expand>true</group.expand>
+        <group.visible>true</group.visible>
+
+        <!--
+            additional groups's properties; these will appear in the group's descriptor 
+            and in the registry in the form of <property name="[name]">value</property>
+            tags.
+            * ${group.properties.length} - total number of the properties
+            * indices should start with 1
+            * properties are not i18n compliant
+            * ${group.properties.1.name}
+            * ${group.properties.1.value}
+        -->
+        <group.properties.length>0</group.properties.length>
+    </properties>
+
+</project>

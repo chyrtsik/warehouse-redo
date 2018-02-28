@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+AutoUpdate-Show-In-Client: false
+OpenIDE-Module-Install: com/artigile/warehouse/gui/baselayout/Installer.class
+OpenIDE-Module-Layer: com/artigile/warehouse/resources/layer.xml
+OpenIDE-Module-Localizing-Bundle: com/artigile/warehouse/resources/Bundle.properties
+OpenIDE-Module-Requires: org.openide.windows.WindowManager, org.openide.modules.ModuleFormat1
+OpenIDE-Module-Java-Dependencies: Java > 1.6

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns="http://artigile.by/xml/ns/resources"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://artigile.by/xml/ns/resources http://artigile.by/xml/ns/resources/resources_1_0.xsd"
+           version="1.0">
+	<server name="<server_address>" datasource-name="jdbc/Warehouse"/>
+    <datasource name="jdbc/Warehouse" pool-name="warehousePool"/>
+    <jdbc-resource-pool name="warehousePool">
+        <property name="database.url" value="jdbc:mysql://<server_address>:<server_port>/<db_name>?characterEncoding=utf-8"/>
+        <property name="database.driver" value="org.gjt.mm.mysql.Driver"/>
+        <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+    </jdbc-resource-pool>
+</resources>

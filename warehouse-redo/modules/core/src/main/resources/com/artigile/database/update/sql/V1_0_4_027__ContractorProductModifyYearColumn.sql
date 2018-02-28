@@ -1,0 +1,1 @@
+ALTER TABLE ContractorProduct MODIFY COLUMN year VARCHAR (50);

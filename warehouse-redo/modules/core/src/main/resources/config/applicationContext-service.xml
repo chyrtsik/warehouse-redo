@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2007-2013 Artigile.
+  ~ Software development company.
+  ~ All Rights Reserved.
+  ~
+  ~ This software is the confidential and proprietary information of Artigile. ("Confidential Information").
+  ~ You shall not disclose such Confidential Information and shall use it only in accordance with the terms of the
+  ~ license agreement you entered into with Artigile software company.
+  -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="userService" class="com.artigile.warehouse.bl.admin.UserService">
+        <property name="userDAO" ref="userDAO"/>
+        <property name="menuItemDAO" ref="menuItemDAO"/>
+        <property name="userGroupDAO" ref="userGroupDAO"/>
+        <property name="userPermissionDAO" ref="userPermissionDAO"/>
+        <property name="warehouseDAO" ref="warehouseDAO"/>
+        <property name="licenseService" ref="licenseService"/>
+    </bean>
+
+    <bean id="userGroupService" class="com.artigile.warehouse.bl.admin.UserGroupService">
+        <property name="userGroupDAO" ref="userGroupDAO"/>
+        <property name="userPermissionDAO" ref="userPermissionDAO"/>
+    </bean>
+
+    <bean id="printTemplateService" class="com.artigile.warehouse.bl.print.PrintTemplateService">
+        <property name="printTemplateDAO" ref="printTemplateDAO"/>
+        <property name="printTemplateInstanceDAO" ref="printTemplateInstanceDAO"/>
+        <property name="printTemplateImagesDAO" ref="printTemplateImagesDAO"/>
+        <property name="storedFileService" ref="storedFileService"/>
+        <property name="printTemplatePluginFactory" ref="printTemplatePluginFactory"/>
+    </bean>
+
+    <bean id="currencyService" class="com.artigile.warehouse.bl.finance.CurrencyService">
+        <property name="currencyDAO" ref="currencyDAO"/>
+        <property name="currencyWordDAO" ref="currencyWordDAO"/>
+        <property name="exchangeDAO" ref="exchangeDAO"/>
+    </bean>
+
+    <bean id="exchangeService" class="com.artigile.warehouse.bl.finance.CurrencyExchangeService">
+        <property name="exchangeDAO" ref="exchangeDAO"/>
+        <property name="accountDAO" ref="accountDAO"/>
+    </bean>
+
+    <bean id="contractorService" class="com.artigile.warehouse.bl.contractors.ContractorService">
+        <property name="contractorDAO" ref="contractorDAO"/>
+        <property name="currencyDAO" ref="currencyDAO"/>
+        <property name="loadPlaceDAO" ref="loadPlaceDAO"/>
+        <property name="accountService" ref="accountService"/>
+        <property name="contactDAO" ref="contactDAO"/>
+    </bean>
+
+    <bean id="contractorContactsProvider" class="com.artigile.warehouse.bl.contractors.ContractorContactsProvider" init-method="initialize">
+        <property name="contractorService" ref="contractorService"/>
+    </bean>
+
+    <bean id="detailTypeService" class="com.artigile.warehouse.bl.detail.DetailTypeService">
+        <property name="detailTypeDAO" ref="detailTypeDAO"/>
+        <property name="detailFieldDAO" ref="detailFieldDAO"/>
+        <property name="detailModelDAO" ref="detailModelDAO"/>
+        <property name="detailSerialNumberDAO" ref="detailSerialNumberDAO"/>
+        <property name="stickerPrintParamDAO" ref="stickerPrintParamDAO"/>
+        <property name="detailModelService" ref="detailModelService"/>
+        <property name="detailSerialNumberService" ref="detailSerialNumberService"/>
+    </bean>
+
+    <bean id="detailModelService" class="com.artigile.warehouse.bl.detail.DetailModelService">
+        <property name="detailModelDAO" ref="detailModelDAO"/>
+    </bean>
+
+    <bean id="detailSerialNumberService" class="com.artigile.warehouse.bl.detail.DetailSerialNumberService">
+        <property name="detailSerialNumberDAO" ref="detailSerialNumberDAO"/>
+    </bean>
+
+    <bean id="detailCatalogService" class="com.artigile.warehouse.bl.detail.DetailCatalogService">
+        <property name="detailGroupDAO" ref="detailGroupDAO"/>
+        <property name="detailTypeDAO" ref="detailTypeDAO"/>
+        <property name="detailModelDAO" ref="detailModelDAO"/>
+        <property name="detailFieldDAO" ref="detailFieldDAO"/>
+    </bean>
+
+    <bean id="measureUnitService" class="com.artigile.warehouse.bl.directory.MeasureUnitService">
+        <property name="measureUnitDAO" ref="measureUnitDAO"/>
+    </bean>
+
+    <bean id="manufacturerService" class="com.artigile.warehouse.bl.directory.ManufacturerService">
+        <property name="manufacturerDAO" ref="manufacturerDAO"/>
+    </bean>
+
+    <bean id="carService" class="com.artigile.warehouse.bl.directory.CarService">
+        <property name="carDAO" ref="carDAO"/>
+    </bean>
+
+    <bean id="detailBatchService" class="com.artigile.warehouse.bl.detail.DetailBatchService">
+        <property name="detailBatchDAO" ref="detailBatchDAO"/>
+        <property name="detailGroupDAO" ref="detailGroupDAO"/>
+    </bean>
+
+    <bean id="detailBatchReservesService" class="com.artigile.warehouse.bl.detail.DetailBatchReservesService">
+        <property name="orderItemsDAO" ref="orderItemsDAO"/>
+        <property name="movementItemDAO" ref="movementItemDAO"/>
+    </bean>
+
+    <bean id="detailBatchDynamicFieldProvider" class="com.artigile.warehouse.bl.detail.DetailBatchDynamicFieldsProvider" init-method="initialize">
+        <property name="detailTypeService" ref="detailTypeService"/>
+    </bean>
+
+    <bean id="serialNumberDynamicFieldProvider" class="com.artigile.warehouse.bl.detail.DetailSerialNumberDynamicFieldsProvider" init-method="initialize">
+        <property name="detailTypeService" ref="detailTypeService"/>
+    </bean>
+
+    <bean id="detailBatchHistoryService" class="com.artigile.warehouse.bl.detail.DetailBatchHistoryServiceImpl" init-method="initialize">
+        <property name="detailBatchHistoryDAO" ref="detailBatchHistoryDAO"/>
+        <property name="userDAO" ref="userDAO"/>
+        <property name="warehouseBatchService" ref="warehouseBatchService"/>
+    </bean>
+
+    <bean id="marketProposalsService" class="com.artigile.warehouse.bl.marketProposals.MarketProposalsService" />
+
+    <bean id="warehouseService" class="com.artigile.warehouse.bl.warehouse.WarehouseService">
+        <property name="warehouseDAO" ref="warehouseDAO"/>
+        <property name="storagePlaceDAO" ref="storagePlaceDAO"/>
+    </bean>
+
+    <bean id="storagePlaceService" class="com.artigile.warehouse.bl.warehouse.StoragePlaceService">
+        <property name="storagePlaceDAO" ref="storagePlaceDAO"/>
+        <property name="warehouseBatchDAO" ref="warehouseBatchDAO"/>
+    </bean>
+
+    <bean id="warehouseBatchService" class="com.artigile.warehouse.bl.warehouseBatch.WarehouseBatchService">
+        <property name="warehouseBatchDAO" ref="warehouseBatchDAO"/>
+        <property name="storagePlaceService" ref="storagePlaceService"/>
+        <property name="postingService" ref="postingService"/>
+        <property name="detailBatchService" ref="detailBatchService"/>
+    </bean>
+
+    <bean id="orderService" class="com.artigile.warehouse.bl.orders.OrderService">
+        <property name="orderDAO" ref="orderDAO"/>
+        <property name="orderItemsDAO" ref="orderItemsDAO"/>
+        <property name="orderSubItemDAO" ref="orderSubItemDAO"/>
+        <property name="warehouseBatchService" ref="warehouseBatchService"/>
+        <property name="orderProcessingInfoDAO" ref="orderProcessingInfoDAO"/>
+    </bean>
+
+    <bean id="orderWithComplectingTasksSynchronizer" class="com.artigile.warehouse.bl.orders.OrderWithComplectingTasksSynchronizer" init-method="initialize">
+        <property name="complectingTaskService" ref="complectingTaskService"/>
+        <property name="orderService" ref="orderService"/>
+    </bean>
+
+    <bean id="orderWithDeliveryNoteSynchronizer" class="com.artigile.warehouse.bl.orders.OrderWithDeliveryNoteSynchronizer" init-method="initialize">
+        <property name="deliveryNoteService" ref="deliveryNoteService"/>
+        <property name="orderService" ref="orderService"/>
+    </bean>
+
+    <bean id="complectingTaskService" class="com.artigile.warehouse.bl.complecting.ComplectingTaskService">
+        <property name="complectingTaskDAO" ref="complectingTaskDAO"/>
+    </bean>
+
+    <bean id="complectingTasksWithOrdersSynchronizer" class="com.artigile.warehouse.bl.complecting.ComplectingTasksWithOrdersSynchronizer" init-method="initialize">
+        <property name="ordersService" ref="orderService"/>
+        <property name="complectingTaskService" ref="complectingTaskService"/>
+    </bean>
+
+    <bean id="uncomplectingTasksWithOrdersSynchronizer" class="com.artigile.warehouse.bl.complecting.UncomplectingTasksWithOrdersSynchronizer" init-method="initialize">
+        <property name="ordersService" ref="orderService"/>
+        <property name="uncomplectingTaskService" ref="uncomplectingTaskService"/>
+    </bean>
+
+    <bean id="uncomplectingTaskService" class="com.artigile.warehouse.bl.complecting.UncomplectingTaskService">
+        <property name="uncomplectingTaskDAO" ref="uncomplectingTaskDAO"/>
+    </bean>
+
+    <bean id="postingService" class="com.artigile.warehouse.bl.postings.PostingService">
+        <property name="postingDAO" ref="postingDAO"/>
+        <property name="postingItemDAO" ref="postingItemDAO"/>
+        <property name="detailBatchDAO" ref="detailBatchDAO"/>
+    </bean>
+
+    <bean id="postingSynchronizer" class="com.artigile.warehouse.bl.postings.PostingSynchronizer" init-method="initialize">
+        <property name="postingService" ref="postingService"/>
+        <property name="inventorizationService" ref="inventorizationService"/>
+    </bean>
+
+    <bean id="unclassifiedCatalogItemService" class="com.artigile.warehouse.bl.postings.UnclassifiedCatalogItemService">
+        <property name="unclassifiedCatalogItemDAO" ref="unclassifiedCatalogItemDAO"/>
+    </bean>
+
+    <bean id="stickerPrintParamService" class="com.artigile.warehouse.bl.sticker.StickerPrintParamService">
+        <property name="stickerPrintParamDAO" ref="stickerPrintParamDAO"/>
+    </bean>
+
+    <bean id="reportStateService" class="com.artigile.warehouse.bl.userprofile.ReportStateService">
+        <property name="reportStateDAO" ref="reportStateDAO"/>
+        <property name="columnStateDAO" ref="columnStateDAO"/>
+    </bean>
+
+    <bean id="emailService" class="com.artigile.warehouse.bl.mail.EmailService">
+        <property name="mailSender" ref="mailSender"/>
+        <property name="mailMessage" ref="mailMessage"/>
+        <property name="appVersion" value="${application.version} - ${application.buildDate}"/>
+        <property name="velocityEngine" ref="velocityEngine"/>
+    </bean>
+
+    <bean id="wareNeedService" class="com.artigile.warehouse.bl.needs.WareNeedService">
+        <property name="wareNeedDAO" ref="wareNeedDAO"/>
+        <property name="wareNeedItemDAO" ref="wareNeedItemDAO"/>
+    </bean>
+
+    <bean id="wareNeedSyncronizer" class="com.artigile.warehouse.bl.needs.WareNeedSynchronizer" init-method="initialize">
+        <property name="purchaseService" ref="purchaseService"/>
+        <property name="wareNeedService" ref="wareNeedService"/>
+    </bean>
+
+    <bean id="purchaseService" class="com.artigile.warehouse.bl.purchase.PurchaseService">
+        <property name="purchaseDAO" ref="purchaseDAO"/>
+        <property name="purchaseItemDAO" ref="purchaseItemDAO"/>
+    </bean>
+
+    <bean id="purchaseSynchronizer" class="com.artigile.warehouse.bl.purchase.PurchaseSynchronizer" init-method="initialize">
+        <property name="purchaseService" ref="purchaseService"/>
+        <property name="postingsService" ref="postingService"/>
+    </bean>
+
+    <bean id="inventorizationService" class="com.artigile.warehouse.bl.inventorization.inventorization.InventorizationService">
+        <property name="inventorizationDAO" ref="inventorizationDAO"/>
+        <property name="inventorizationItemsDAO" ref="inventorizationItemsDAO"/>
+        <property name="warehouseBatchDAO" ref="warehouseBatchDAO"/>
+        <property name="lockGroupService" ref="lockGroupService"/>
+    </bean>
+
+    <bean id="inventorizationSynchronizer" class="com.artigile.warehouse.bl.inventorization.inventorization.InventorizationSynchronizer" init-method="initialize">
+        <property name="inventorizationTaskService" ref="inventorizationTaskService"/>
+    </bean>
+
+    <bean id="frameStateService" class="com.artigile.warehouse.bl.userprofile.FrameStateService">
+        <property name="frameStateDAO" ref="frameStateDAO"/>
+    </bean>
+
+    <bean id="inventorizationTaskService" class="com.artigile.warehouse.bl.inventorization.task.InventorizationTaskService">
+        <property name="inventorizationTaskDAO" ref="inventorizationTaskDAO"/>
+    </bean>
+
+    <bean id="inventorizationTaskSynchronizer" class="com.artigile.warehouse.bl.inventorization.task.InventorizationTaskSynchronizer" init-method="initialize">
+        <property name="inventorizationService" ref="inventorizationService"/>
+        <property name="inventorizationTaskService" ref="inventorizationTaskService"/>
+    </bean>
+
+
+    <bean id="chargeOffService" class="com.artigile.warehouse.bl.chargeoff.ChargeOffService">
+        <property name="chargeOffDAO" ref="chargeOffDAO"/>
+    </bean>
+
+    <bean id="chargeOffWithInventorizationSynchronizer" class="com.artigile.warehouse.bl.chargeoff.ChargeOffWithInventorizationSynchronizer" init-method="initialize">
+        <property name="chargeOffService" ref="chargeOffService"/>
+        <property name="inventorizationService" ref="inventorizationService"/>
+        <property name="warehouseBatchService" ref="warehouseBatchService"/>
+    </bean>
+
+    <bean id="chargeOffWithComplectingTasksSynchronizer" class="com.artigile.warehouse.bl.chargeoff.ChargeOffWithComplectingTasksSynchronizer" init-method="initialize">
+        <property name="chargeOffService" ref="chargeOffService"/>
+        <property name="complectingTaskService" ref="complectingTaskService"/>
+        <property name="warehouseBatchService" ref="warehouseBatchService"/>
+        <property name="deliveryNoteService" ref="deliveryNoteService"/>
+    </bean>
+
+    <bean id="deliveryNoteService" class="com.artigile.warehouse.bl.deliveryNote.DeliveryNoteService">
+        <property name="deliveryNoteDAO" ref="deliveryNoteDAO"/>
+        <property name="deliveryNoteItemsDAO" ref="deliveryNoteItemsDAO"/>
+    </bean>
+
+    <bean id="deliveryNoteWithPostringSynchronizer" class="com.artigile.warehouse.bl.deliveryNote.DeliveryNoteWithPostingSynchronizer" init-method="initialize">
+        <property name="deliveryNoteService" ref="deliveryNoteService"/>
+        <property name="postingsService" ref="postingService"/>
+    </bean>
+
+    <bean id="deliveryNoteWithPaymentSynchronizer" class="com.artigile.warehouse.bl.deliveryNote.DeliveryNoteWithPaymentSynchronizer" init-method="initialize">
+        <property name="deliveryNoteService" ref="deliveryNoteService"/>
+        <property name="paymentService" ref="paymentService"/>
+    </bean>
+
+    <bean id="movementService" class="com.artigile.warehouse.bl.movement.MovementService">
+        <property name="movementDAO" ref="movementDAO"/>
+        <property name="movementItemDAO" ref="movementItemDAO"/>
+    </bean>
+
+    <bean id="complectingTasksWithMovementsSynchronizer" class="com.artigile.warehouse.bl.complecting.ComplectingTasksWithMovementsSynchronizer" init-method="initialize">
+        <property name="complectingTaskService" ref="complectingTaskService"/>
+        <property name="movementService" ref="movementService"/>
+    </bean>
+
+    <bean id="movementWithComplectingTasksSynchronizer" class="com.artigile.warehouse.bl.movement.MovementWithComplectingTasksSynchronizer" init-method="initialize">
+        <property name="complectingTaskService" ref="complectingTaskService"/>
+        <property name="movementService" ref="movementService"/>
+    </bean>
+
+    <bean id="movementWithDeliveryNoteSynchronizer" class="com.artigile.warehouse.bl.movement.MovementWithDeliveryNoteSynchronizer" init-method="initialize">
+        <property name="deliveryNoteService" ref="deliveryNoteService"/>
+        <property name="movementService" ref="movementService"/>
+    </bean>
+
+    <bean id="lockGroupService" class="com.artigile.warehouse.bl.lock.LockGroupService">
+        <property name="lockGroupDAO" ref="lockGroupDAO"/>
+    </bean>
+
+    <bean id="lockingManagerService" class="com.artigile.warehouse.bl.lock.LockingManagerService">
+    </bean>
+
+    <bean id="propertiesService" class="com.artigile.warehouse.bl.properties.PropertiesService">
+        <property name="propertyDAO" ref="propertyDAO"/>
+    </bean>
+
+    <bean id="accountService" class="com.artigile.warehouse.bl.finance.AccountService">
+        <property name="userDAO" ref="userDAO"/>
+        <property name="accountDAO" ref="accountDAO"/>
+        <property name="accountOperationDAO" ref="accountOperationDAO"/>
+        <property name="contractorDAO" ref="contractorDAO"/>
+    </bean>
+
+    <bean id="accountWithCurrencySynchronizer" class="com.artigile.warehouse.bl.finance.AccountsWithCurrencySynchronizer" init-method="initialize">
+        <property name="currencyService" ref="currencyService"/>
+        <property name="accountService" ref="accountService"/>
+    </bean>
+
+    <bean id="paymentService" class="com.artigile.warehouse.bl.finance.PaymentService">
+        <property name="userDAO" ref="userDAO"/>
+        <property name="contractorDAO" ref="contractorDAO"/>
+        <property name="currencyDAO" ref="currencyDAO"/>
+        <property name="deliveryNoteDAO" ref="deliveryNoteDAO"/>
+        <property name="paymentDAO" ref="paymentDAO"/>
+        <property name="exchangeService" ref="exchangeService"/>
+        <property name="accountService" ref="accountService"/>
+    </bean>
+
+    <bean id="contractorProductService" class="com.artigile.warehouse.bl.priceimport.ContractorProductService">
+        <property name="contractorProductDAO" ref="contractorProductDAO"/>
+    </bean>
+
+    <bean id="contractorPriceImportService" class="com.artigile.warehouse.bl.priceimport.ContractorPriceImportService"
+          init-method="initialize">
+        <property name="priceImportDAO" ref="priceImportDAO"/>
+        <property name="dataImportService" ref="dataImportService"/>
+    </bean>
+
+    <bean id="sellerSettingsService" class="com.artigile.warehouse.bl.priceimport.SellerSettingsService">
+        <property name="sellerSettingsDAO" ref="sellerSettingsDAO"/>
+    </bean>
+
+    <bean id="storedFileService" class="com.artigile.warehouse.bl.util.files.StoredFileService">
+        <property name="storedFileDAO" ref="storedFileDAO"/>
+    </bean>
+
+    <bean id="licenseService" class="com.artigile.warehouse.bl.license.LicenseService">
+        <constructor-arg ref="globalDataChangeNotifier"/>
+        <property name="licenseDAO" ref="licenseDAO"/>
+    </bean>
+
+    <bean id="dataImportService" class="com.artigile.warehouse.bl.dataimport.DataImportService">
+        <property name="dataImportDAO" ref="dataImportDAO"/>
+    </bean>
+
+    <bean id="detailBatchImportService" class="com.artigile.warehouse.bl.detail.DetailBatchImportService" init-method="initialize">
+        <property name="detailBatchImportDAO" ref="detailBatchImportDAO"/>
+        <property name="detailTypeDAO" ref="detailTypeDAO"/>
+        <property name="dataImportService" ref="dataImportService"/>
+    </bean>
+
+    <bean id="emailConfigService" class="com.artigile.warehouse.bl.EmailConfigService">
+        <property name="emailConfigDAO" ref="emailConfigDAO"/>
+    </bean>
+
+    <!-- Netbeans specific configuration -->
+    <bean id="asynchronousTaskExecutor" class="com.artigile.warehouse.bl.util.async.netbeans.NetBeansAsynchronousTaskExecutor">
+    </bean>
+    <!-- End of Netbeans specific configuration -->
+
+</beans>

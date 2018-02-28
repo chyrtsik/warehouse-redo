@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2007-2011 Artigile.
+  ~ Software art development company.
+  ~ All Rights Reserved.
+  ~
+  ~ This software is the confidential and proprietary information of Artigile. ("Confidential Information").
+  ~ You shall not disclose such Confidential Information and shall use it only in accordance with the terms of the
+  ~ license agreement you entered into with Artigile software company.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.artigile.warehouse</groupId>
+        <artifactId>distribution-aggregator</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>installer-aggregator</artifactId>
+    <packaging>pom</packaging>
+
+    <name>Warehouse Client Installer Aggregator</name>
+
+    <modules>
+        <module>engine</module>
+        <module>components</module>
+        <module>installer</module>
+    </modules>
+
+    <properties>
+        <product.internal.jre.version>1.8.0_151</product.internal.jre.version>
+        <product.mysql.version>5.5.11.0.0</product.mysql.version>
+        <product.warehouse.client.version>1.0.0.0.0</product.warehouse.client.version>
+        <nbi.version>1.0.2</nbi.version>
+    </properties>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-antrun-plugin</artifactId>
+                    <dependencies>
+                        <dependency>
+                            <groupId>com.artigile.nbi</groupId>
+                            <artifactId>nbi-ant-tasks</artifactId>
+                            <version>${nbi.version}</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.artigile.nbi</groupId>
+                <artifactId>nbi-engine</artifactId>
+                <version>${nbi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.artigile.warehouse</groupId>
+                <artifactId>nbi-engine</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.artigile.nbi</groupId>
+                <artifactId>nbi-ant-tasks</artifactId>
+                <version>${nbi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.artigile.warehouse</groupId>
+                <artifactId>runtimes-group</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.artigile.warehouse</groupId>
+                <artifactId>nbi-product-warehouse-client</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.artigile.warehouse</groupId>
+                <artifactId>nbi-product-mysql</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.oracle</groupId>
+                <artifactId>com.oracle.jre</artifactId>
+                <version>${product.internal.jre.version}</version>
+                <classifier>win64-jre-zipexe</classifier>
+                <type>exe</type>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>
