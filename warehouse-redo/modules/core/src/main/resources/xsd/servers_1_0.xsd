@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2007-2011 Artigile.
+  ~ Software art development company.
+  ~ All Rights Reserved.
+  ~
+  ~ This software is the confidential and proprietary information of Artigile. ("Confidential Information").
+  ~ You shall not disclose such Confidential Information and shall use it only in accordance with the terms of the
+  ~ license agreement you entered into with Artigile software company.
+  -->
+
+<!-- servers.xml schema -->
+<xsd:schema targetNamespace="http://artigile.by/xml/ns/servers"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:servers="http://artigile.by/xml/ns/servers"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified"
+  version="1.0">
+
+    <xsd:annotation>
+      <xsd:documentation>
+        @(#)servers_1_0.xsd  1.0  Feb  28 2018
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:simpleType name="versionType">
+      <xsd:restriction base="xsd:token">
+        <xsd:pattern value="[0-9]+(\.[0-9]+)*"/>
+      </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:element name="servers">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded" minOccurs="0">
+            <xsd:element type="servers:server" name="server"/>
+        </xsd:choice>
+        <xsd:attribute name="version" type="servers:versionType"
+                       fixed="1.0" use="required"/>
+      </xsd:complexType>
+    </xsd:element>
+
+    <xsd:complexType name="server">
+        <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+            <xsd:element type="servers:property" name="property"/>
+        </xsd:sequence>
+        <xsd:attribute name="name" type="xsd:string" use="required"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="property">
+      <xsd:attribute name="name" type="xsd:string" use="required"/>
+      <xsd:attribute name="value" type="xsd:string" use="required"/>
+    </xsd:complexType>
+
+</xsd:schema>

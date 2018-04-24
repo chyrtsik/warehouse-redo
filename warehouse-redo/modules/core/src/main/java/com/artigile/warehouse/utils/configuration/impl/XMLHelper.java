@@ -8,11 +8,8 @@
  * license agreement you entered into with Artigile software company.
  */
 
-package com.artigile.warehouse.utils.xml;
+package com.artigile.warehouse.utils.configuration.impl;
 
-import com.artigile.warehouse.utils.xml.element.Resources;
-import com.artigile.warehouse.utils.xml.parser.ResourceContentHandler;
-import com.artigile.warehouse.utils.xml.parser.XMLException;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
@@ -32,19 +29,19 @@ import java.util.Set;
  */
 public class XMLHelper {
 
-    public static final String RESOURCES_XML = "config/resources.xml";
-    public static final String DEFAULT_RESOURCES_XML = "config/resources.xml";
+    public static final String SERVERS_XML = "config/servers.xml";
+    public static final String DEFAULT_SERVERS_XML = "config/servers.xml";
 
     /**
-     *  Search the classpath for resources.xml. A resources.xml is defined as any
-     *  part of the class path that contains a "config" directory with a resources.xml file in it. 
+     *  Search the classpath for servers.xml. A servers.xml is defined as any
+     *  part of the class path that contains a "config" directory with a servers.xml file in it.
      *  Return a list of {@link URL}s of those files.
      *  @param loader the class loader to get the class path from
      */
     public static Set<URL> findResources(ClassLoader loader) {
         Set<URL> pars = new HashSet<URL>();
         try {
-            Enumeration<URL> resources = loader.getResources(RESOURCES_XML);
+            Enumeration<URL> resources = loader.getResources(SERVERS_XML);
             while (resources.hasMoreElements()) {
                 URL rxmlURL = resources.nextElement();
                 pars.add(rxmlURL);
@@ -55,19 +52,19 @@ public class XMLHelper {
         return pars;
     }
 
-    public static Resources processResourcesXML(URL baseURL, ClassLoader loader) {
+    public static Servers processServersXML(URL baseURL, ClassLoader loader) {
         try {
             InputStream rxmlStream = baseURL.openStream();
-            return processResourcesXML(baseURL, rxmlStream, loader);
+            return processServersXML(baseURL, rxmlStream, loader);
         } catch (IOException exc) {
             throw new RuntimeException(exc);
         }
     }
 
     /**
-     * Build a resources.xml file into a Resources object
+     * Build a servers.xml file into a Resources object
      */
-    private static Resources processResourcesXML(URL baseURL, InputStream input, ClassLoader loader) {
+    private static Servers processServersXML(URL baseURL, InputStream input, ClassLoader loader) {
         SAXParserFactory spf = SAXParserFactory.newInstance();
         spf.setNamespaceAware(true);
         spf.setValidating(true);
@@ -96,7 +93,7 @@ public class XMLHelper {
         }
 
         // attempt to load the schema from the classpath
-        URL schemaURL = loader.getResource(XMLConstants.RESOURCES_SCHEMA_NAME);
+        URL schemaURL = loader.getResource(XMLConstants.SERVERS_SCHEMA_NAME);
         if (schemaURL != null) {
             try {
             	sp.setProperty(XMLConstants.JAXP_SCHEMA_SOURCE, schemaURL.toString());
@@ -105,7 +102,7 @@ public class XMLHelper {
             }
         }
 
-        ResourceContentHandler myContentHandler = new ResourceContentHandler();
+        ServersContentHandler myContentHandler = new ServersContentHandler();
         xmlReader.setContentHandler(myContentHandler);
 
         InputSource inputSource = new InputSource(input);
@@ -123,6 +120,6 @@ public class XMLHelper {
             throw new RuntimeException(xmlError);
         }
 
-        return myContentHandler.getResources();
+        return myContentHandler.getServers();
     }
 }

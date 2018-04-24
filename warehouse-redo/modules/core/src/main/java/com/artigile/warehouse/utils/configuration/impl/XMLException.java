@@ -8,7 +8,7 @@
  * license agreement you entered into with Artigile software company.
  */
 
-package com.artigile.warehouse.utils.xml.parser;
+package com.artigile.warehouse.utils.configuration.impl;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -8,25 +8,28 @@
  * license agreement you entered into with Artigile software company.
  */
 
-package com.artigile.warehouse.utils.xml.element;
+package com.artigile.warehouse.utils.configuration.impl;
+
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * @author Valery Barysok, 27.04.2010
  */
-public class DataSource {
+public class Server {
     private String name;
-    private String poolName;
+    private Map<String, String> properties = new TreeMap<>();
 
-    public DataSource(String name, String poolName) {
+    public Server(String name) {
         this.name = name;
-        this.poolName = poolName;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getPoolName() {
-        return poolName;
+    public Map<String, String> getProperties() {
+        return properties;
     }
+
 }

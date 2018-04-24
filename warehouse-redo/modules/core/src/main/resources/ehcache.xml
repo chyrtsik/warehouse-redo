@@ -16,21 +16,18 @@
     created in program using CacheManager.add(String cacheName)
     -->
     <defaultCache
-            maxElementsInMemory="10000"
+            maxElementsInMemory="100000"
             eternal="false"
-            timeToIdleSeconds="120"
-            timeToLiveSeconds="120"
-            overflowToDisk="true"
-            maxElementsOnDisk="1000000"
-            diskPersistent="false"
-            diskExpiryThreadIntervalSeconds="120"
+            timeToIdleSeconds="3600"
+            timeToLiveSeconds="3600"
+            overflowToDisk="false"
             memoryStoreEvictionPolicy="LRU"/>
 
     <cache name="com.artigile.warehouse.domain.admin.User"
            maxElementsInMemory="1000"
            eternal="false"
-           timeToIdleSeconds="120"
-           timeToLiveSeconds="300"
+           timeToIdleSeconds="3600"
+           timeToLiveSeconds="3600"
            overflowToDisk="false"
            memoryStoreEvictionPolicy="LRU"/>
 </ehcache>

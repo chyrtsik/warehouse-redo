@@ -11,9 +11,9 @@
 package com.artigile.warehouse.utils.authentification;
 
 import com.artigile.warehouse.utils.StringUtils;
+import com.artigile.warehouse.utils.configuration.ServersInitializer;
 import com.artigile.warehouse.utils.logging.LoggingFacade;
-import com.artigile.warehouse.utils.xml.ResourcesInitializer;
-import com.artigile.warehouse.utils.xml.element.JdbcResourcePool;
+import com.artigile.warehouse.utils.configuration.impl.Server;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
@@ -371,16 +371,19 @@ final public class MySqlAuthenticator {
         return isSystemAdministrator;
     }
 
-    public static boolean updateConnectionProperties(String server) {
-        JdbcResourcePool pool = ResourcesInitializer.getInstance().getJdbcResourcePoolByServer(server);
-        if (pool != null) {
+    public static boolean updateConnectionProperties(String serverName) {
+        Server databaseServer = ServersInitializer.getInstance().getServerByName(serverName);
+        if (databaseServer != null) {
             Properties connectionProperties = MySqlAuthenticator.getConnectionProperties();
-            for (Map.Entry<String, String> kv : pool.getProperties().entrySet()) {
+            for (Map.Entry<String, String> kv : databaseServer.getProperties().entrySet()) {
                 connectionProperties.setProperty(kv.getKey(), kv.getValue());
             }
             MySqlAuthenticator.getDatabaseUrl(true);
             return true;
         }
-        return false;
+        else {
+            LoggingFacade.logError(MessageFormat.format("Cannot load server %s. Probably these is a mistake in config.", serverName));
+            return false;
+        }
     }
 }

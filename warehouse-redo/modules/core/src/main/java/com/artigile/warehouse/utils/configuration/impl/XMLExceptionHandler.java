@@ -8,9 +8,8 @@
  * license agreement you entered into with Artigile software company.
  */
 
-package com.artigile.warehouse.utils.xml;
+package com.artigile.warehouse.utils.configuration.impl;
 
-import com.artigile.warehouse.utils.xml.parser.XMLException;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
