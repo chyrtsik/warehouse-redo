@@ -28,7 +28,6 @@
         <priority value="INFO"/>
     </category>
 
-    <!--
     <category name="org.hibernate.SQL">
         <priority value="TRACE"/>
     </category>
@@ -41,8 +40,6 @@
     <category name="org.hibernate.cache">
         <priority value="TRACE"/>
     </category>
-    -->
-
 
     <root>
         <priority value="INFO"/>

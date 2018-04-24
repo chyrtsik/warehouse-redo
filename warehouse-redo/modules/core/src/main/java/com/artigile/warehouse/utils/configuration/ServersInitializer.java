@@ -8,7 +8,7 @@
  * license agreement you entered into with Artigile software company.
  */
 
-package com.artigile.warehouse.utils.xml;
+package com.artigile.warehouse.utils.configuration;
 
 import com.artigile.warehouse.gui.baselayout.WareHouse;
 import com.artigile.warehouse.utils.logging.LoggingFacade;
@@ -19,8 +19,8 @@ import com.artigile.warehouse.utils.configuration.impl.Servers;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author Valery Barysok, 27.04.2010
@@ -62,11 +62,20 @@ public final class ServersInitializer {
         servers = XMLHelper.processServersXML(url, sessionClassLoader);
     }
 
-    public Server getServerByName(String serverName) {
-        return servers.getServers().stream().filter(server -> server.getName().equals(serverName)).findAny().get();
+    public Server getServerByName(final String serverName) {
+        for (Server server : servers.getServers()){
+            if (server.getName().equals(serverName)){
+                return server;
+            }
+        }
+        throw new IllegalArgumentException("No server with name " + serverName + " exists");
     }
 
     public List<String> getServerNames() {
-        return servers.getServers().stream().map(Server::getName).collect(Collectors.toList());
+        List<String> serverNames = new ArrayList<>(servers.getServers().size());
+        for (Server server : servers.getServers()){
+            serverNames.add(server.getName());
+        }
+        return serverNames;
     }
 }

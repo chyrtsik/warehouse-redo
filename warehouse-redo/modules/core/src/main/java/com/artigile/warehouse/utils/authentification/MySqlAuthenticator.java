@@ -11,8 +11,8 @@
 package com.artigile.warehouse.utils.authentification;
 
 import com.artigile.warehouse.utils.StringUtils;
+import com.artigile.warehouse.utils.configuration.ServersInitializer;
 import com.artigile.warehouse.utils.logging.LoggingFacade;
-import com.artigile.warehouse.utils.xml.ServersInitializer;
 import com.artigile.warehouse.utils.configuration.impl.Server;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
