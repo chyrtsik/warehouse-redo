@@ -57,6 +57,9 @@ public class OrdersEditingStrategy implements ReportEditingStrategy {
 
         //Command for adding new order.
         commands.add(new CreateOrderCommand());
+        if (singleItemSelected){
+            commands.add(new CopyOrderCommand());
+        }
 
         //Command for deleting selected orders.
         boolean canDeleteOrder = true;

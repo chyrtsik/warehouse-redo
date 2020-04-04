@@ -124,6 +124,17 @@ public class OrderTOForReport extends EqualsByIdImpl {
         setReservingType(OrderReservingType.IMMEDIATELY);
     }
 
+    public void initAndCopyFrom(OrderTOForReport src){
+        init();
+        setVatRate(src.getVatRate());
+        setContractor(src.getContractor());
+        setLoadPlace(src.getLoadPlace());
+        setLoadDate(src.getLoadDate());
+        setCurrency(src.getCurrency());
+        setNotice(src.getNotice());
+        setReservingType(src.getReservingType());
+    }
+
     public boolean equals(Object obj){
         if (obj instanceof OrderTOForReport){
             OrderTOForReport orderObj = (OrderTOForReport)obj;

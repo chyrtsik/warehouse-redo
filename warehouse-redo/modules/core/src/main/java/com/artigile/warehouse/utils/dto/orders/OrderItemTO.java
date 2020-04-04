@@ -49,8 +49,6 @@ public class OrderItemTO extends EqualsByIdImpl implements Copiable{
 
     /**
      * Use this constructor to create detail order item.
-     * @param order
-     * @param detailBatch
      */
     public OrderItemTO(OrderTOForReport order, DetailBatchTO detailBatch){
         this.order = order;
@@ -60,11 +58,26 @@ public class OrderItemTO extends EqualsByIdImpl implements Copiable{
 
     /**
      * Use this constructor to create text order item.
-     * @param order
      */
     public OrderItemTO(OrderTOForReport order){
         this.order = order;
         init();
+    }
+
+    /**
+     * Create a new order item and initialize it from given prototype. This is used to copy order items.
+     */
+    public OrderItemTO(OrderTOForReport order, OrderItemTO prototype) {
+        this.order = order;
+        this.detailBatch = prototype.getDetailBatch();
+        init();
+        setNumber(prototype.getNumber());
+        setPrice(SpringServiceContext.getInstance().getExchangeService().convert(
+                order.getCurrency().getId(), prototype.getOrder().getCurrency().getId(), prototype.getPrice()
+        ));
+        setCount(prototype.getCount());
+        setText(prototype.getText());
+        setNotice(prototype.getNotice());
     }
 
     private void init() {

@@ -10,6 +10,7 @@
 
 package com.artigile.warehouse.gui.core.report.command;
 
+import com.artigile.warehouse.bl.common.exceptions.BusinessException;
 import com.artigile.warehouse.gui.core.report.command.availability.AvailabilityStrategy;
 import com.artigile.warehouse.gui.core.report.command.naming.NamingStrategy;
 import com.artigile.warehouse.gui.core.report.command.naming.ResourceCommandNaming;

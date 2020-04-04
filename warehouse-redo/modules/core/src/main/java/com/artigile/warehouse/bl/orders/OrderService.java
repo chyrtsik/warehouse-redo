@@ -239,7 +239,7 @@ public class OrderService {
         ordersDAO.refresh(persistentOrder);
         OrdersTransformer.update(order, persistentOrder);
     }
-   
+
     /**
      * Checks, if the number of the order will be unique.
      * @param number
@@ -288,7 +288,7 @@ public class OrderService {
         //Refresh order state.
         recalculateOrderState(newOrderItem.getOrder());
     }
-   
+
     /**
      * Deletes item from the order.
      * @param orderItemId
@@ -762,8 +762,8 @@ public class OrderService {
     public List<OrderSubItem> getOrderSubItemsForDeliveryNote(long deliveryNoteId){
         return orderSubItemDAO.getOrderSubItemsForDeliveryNote(deliveryNoteId);
     }
-
     //==================== Spring setters ============================
+
     public void setOrderDAO(OrderDAO ordersDAO) {
         this.ordersDAO = ordersDAO;
     }
