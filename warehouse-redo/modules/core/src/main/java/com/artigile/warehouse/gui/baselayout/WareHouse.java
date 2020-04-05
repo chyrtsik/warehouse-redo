@@ -139,26 +139,27 @@ public class WareHouse {
         UserService userService = SpringServiceContext.getInstance().getUserService();
         UserTO loggedUser = userService.getUserByLogin(loginPane.getUserName());
 
-        LicenseService licenseService = SpringServiceContext.getInstance().getLicenseService();
-        LicenseCheckResult licenseResultCheckResult = licenseService.checkLicense();
-        if (!licenseResultCheckResult.isValid()){
-            //There are no valid licences.
-            boolean userCanEditLicences = licenseService.canUserEditLicenses(loggedUser.getId());
-            if (userCanEditLicences){
-                //Allow user to continue because he has permission to work with licence list.
-                //We need him to work with application to enter new licence data.
-                MessageDialogs.showWarning(I18nSupport.message("license.invalid.message.administrator", licenseResultCheckResult.getDescription()));
-            }
-            else{
-                //Ordinary user is not allowed to work with application until license problem is fixed.
-                MessageDialogs.showWarning(I18nSupport.message("license.invalid.message.usual.user", licenseResultCheckResult.getDescription()));
-                LifecycleManager.getDefault().exit();
-            }
-        }
-        else if (licenseResultCheckResult.getDaysToExpire() != null && licenseResultCheckResult.getDaysToExpire() <= 14){
-            //Notify user about expiring license.
-            MessageDialogs.showInfo(I18nSupport.message("license.expire.soon.warning", licenseResultCheckResult.getDaysToExpire()));
-        }
+        //TODO - temporary disabled for development purposes
+//        LicenseService licenseService = SpringServiceContext.getInstance().getLicenseService();
+//        LicenseCheckResult licenseResultCheckResult = licenseService.checkLicense();
+//        if (!licenseResultCheckResult.isValid()){
+//            //There are no valid licences.
+//            boolean userCanEditLicences = licenseService.canUserEditLicenses(loggedUser.getId());
+//            if (userCanEditLicences){
+//                //Allow user to continue because he has permission to work with licence list.
+//                //We need him to work with application to enter new licence data.
+//                MessageDialogs.showWarning(I18nSupport.message("license.invalid.message.administrator", licenseResultCheckResult.getDescription()));
+//            }
+//            else{
+//                //Ordinary user is not allowed to work with application until license problem is fixed.
+//                MessageDialogs.showWarning(I18nSupport.message("license.invalid.message.usual.user", licenseResultCheckResult.getDescription()));
+//                LifecycleManager.getDefault().exit();
+//            }
+//        }
+//        else if (licenseResultCheckResult.getDaysToExpire() != null && licenseResultCheckResult.getDaysToExpire() <= 14){
+//            //Notify user about expiring license.
+//            MessageDialogs.showInfo(I18nSupport.message("license.expire.soon.warning", licenseResultCheckResult.getDaysToExpire()));
+//        }
 
         UserSessionInfo newUserSessionInfo = new UserSessionInfo();
         newUserSessionInfo.setUser(loggedUser);
