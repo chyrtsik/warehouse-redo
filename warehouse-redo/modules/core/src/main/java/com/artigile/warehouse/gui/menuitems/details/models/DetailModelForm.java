@@ -127,7 +127,6 @@ public class DetailModelForm implements PropertiesForm {
         }
 
         initDetailTypes();
-        initModelForm();
     }
 
     @Override
