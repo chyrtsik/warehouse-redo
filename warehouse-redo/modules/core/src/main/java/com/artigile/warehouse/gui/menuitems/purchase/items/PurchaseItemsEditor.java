@@ -26,6 +26,7 @@ import com.artigile.warehouse.gui.core.report.command.ReportCommandList;
 import com.artigile.warehouse.gui.core.report.command.ReportCommandListImpl;
 import com.artigile.warehouse.gui.core.report.command.availability.AvailabilityStrategy;
 import com.artigile.warehouse.gui.core.report.command.availability.PermissionCommandAvailability;
+import com.artigile.warehouse.gui.core.report.command.naming.NamingStrategy;
 import com.artigile.warehouse.gui.core.report.command.naming.ResourceCommandNaming;
 import com.artigile.warehouse.gui.core.report.controller.ReportDataSource;
 import com.artigile.warehouse.gui.core.report.controller.TableReport;
@@ -36,12 +37,14 @@ import com.artigile.warehouse.gui.core.switchable.SwitchableViewItem;
 import com.artigile.warehouse.gui.menuitems.details.batches.DetailBatchesList;
 import com.artigile.warehouse.gui.menuitems.details.catalog.DetailCatalog;
 import com.artigile.warehouse.gui.menuitems.details.catalog.DetailCatalogBatchesListFactory;
+import com.artigile.warehouse.gui.menuitems.details.outofstock.OutOfStockProductsList;
 import com.artigile.warehouse.gui.menuitems.needs.WareNeedItemsList;
 import com.artigile.warehouse.gui.utils.GridLayoutUtils;
 import com.artigile.warehouse.utils.SpringServiceContext;
 import com.artigile.warehouse.utils.StringUtils;
 import com.artigile.warehouse.utils.dto.details.DetailBatchTO;
 import com.artigile.warehouse.utils.dto.details.DetailGroupTO;
+import com.artigile.warehouse.utils.dto.details.outofstock.OutOfStockProductTO;
 import com.artigile.warehouse.utils.dto.needs.WareNeedItemTO;
 import com.artigile.warehouse.utils.dto.needs.WareNeedTO;
 import com.artigile.warehouse.utils.dto.purchase.PurchaseItemTO;
@@ -362,6 +365,32 @@ public class PurchaseItemsEditor extends FramePlugin {
         }
     }
 
+    private class AddOutOfStockItemToPurchaseCommand extends CustomCommand {
+        protected AddOutOfStockItemToPurchaseCommand() {
+            super(new ResourceCommandNaming("purchase.items.editor.addToPosting.command"), getAddItemAvailability());
+        }
+
+        @Override
+        protected boolean doExecute(ReportCommandContext context) throws ReportCommandException {
+            OutOfStockProductTO item = (OutOfStockProductTO)context.getCurrentReportItem();
+            DetailBatchTO detailBatchToAdd = SpringServiceContext.getInstance().getDetailBatchesService().getBatch(item.getId());
+            WareNeedItemTO wareNeedItem = new WareNeedItemTO(wareNeed, detailBatchToAdd, true);
+            wareNeedItem.setAutoCreated(true);
+            if (item.getOrderedCount() < item.getCountToOrder()) {
+                wareNeedItem.setCount(item.getCountToOrder() - item.getOrderedCount());
+            }
+            PurchaseItemTO newPurchaseItem = new PurchaseItemTO(purchase, wareNeedItem);
+
+            PropertiesForm prop = new PurchaseWareNeedItemForm(newPurchaseItem, true);
+            if (Dialogs.runProperties(prop)) {
+                onAddNewWareNeedItem(wareNeedItem, null);
+                onAddNewPurchaseItem(newPurchaseItem);
+                return true;
+            }
+            return false;
+        }
+    }
+
     private void onAddNewWareNeedItem(WareNeedItemTO newWareNeedItem, WareNeedItemTO existsWareNeedItem) {
         if (existsWareNeedItem == null) {
             wareNeed.addNewItem(newWareNeedItem);
@@ -476,6 +505,27 @@ public class PurchaseItemsEditor extends FramePlugin {
                 return tableReport.getContentPanel();
             }
         });
+
+        viewItems.add(new SwitchableViewItem() {
+            @Override
+            public String getName() {
+                return I18nSupport.message("detail.batch.outofstock.title");
+            }
+
+            @Override
+            public Component getCreateViewComponent() {
+               //Decorates the list with a new commands for adding purchase items to list.
+                ReportCommandList additionalCommands = new ReportCommandListImpl();
+                additionalCommands.add(new AddOutOfStockItemToPurchaseCommand());
+                additionalCommands.setDefaultCommandForRow(additionalCommands.get(0));
+
+                OutOfStockProductsList outOfStockList = new OutOfStockProductsList(PurchaseItemsEditor.this.getClass().getCanonicalName());
+                ReportCommandsDecorator decoratedItemsList = new ReportCommandsDecorator(outOfStockList, additionalCommands);
+                TableReport tableReport = new TableReport(decoratedItemsList, PurchaseItemsEditor.this);
+                return tableReport.getContentPanel();
+            }
+        });
+
 
         viewItems.add(new SwitchableViewItem() {
             @Override

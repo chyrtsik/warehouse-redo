@@ -372,6 +372,10 @@
         <property name="emailConfigDAO" ref="emailConfigDAO"/>
     </bean>
 
+    <bean id="outOfStockProductsService" class="com.artigile.warehouse.bl.detail.outofstock.OutOfStockProducsService">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
     <!-- Netbeans specific configuration -->
     <bean id="asynchronousTaskExecutor" class="com.artigile.warehouse.bl.util.async.netbeans.NetBeansAsynchronousTaskExecutor">
     </bean>

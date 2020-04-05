@@ -24,6 +24,7 @@ import com.artigile.warehouse.bl.contractors.ContractorService;
 import com.artigile.warehouse.bl.dataimport.DataImportService;
 import com.artigile.warehouse.bl.deliveryNote.DeliveryNoteService;
 import com.artigile.warehouse.bl.detail.*;
+import com.artigile.warehouse.bl.detail.outofstock.OutOfStockProducsService;
 import com.artigile.warehouse.bl.directory.CarService;
 import com.artigile.warehouse.bl.directory.ManufacturerService;
 import com.artigile.warehouse.bl.directory.MeasureUnitService;
@@ -330,5 +331,9 @@ public class SpringServiceContext {
 
     public PrintTemplatePluginFactory getPrintTemplatePluginFactory() {
         return ctx.getBean(PrintTemplatePluginFactory.class);
+    }
+
+    public OutOfStockProducsService getOutOfStockProductsService() {
+        return ctx.getBean(OutOfStockProducsService.class);
     }
 }
