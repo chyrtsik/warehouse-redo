@@ -135,7 +135,7 @@ public class OrderDetailItemForm implements PropertiesForm, WarehouseBatchForOrd
 
     @Override
     public void validateData() throws DataValidationException {
-        DataValidation.checkCondition(orderItem.getDetailBatch().getAvailCount() > 0, warehouseBatchesPanel, "order.detailItem.properties.notEnoughBatchesAtWarehouses");
+        DataValidation.checkCondition(orderItem.getDetailBatch().getAvailCount() >= (getTotalCount() - orderItem.getCount()), warehouseBatchesPanel, "order.detailItem.properties.notEnoughBatchesAtWarehouses");
         DataValidation.checkNotEmpty(fieldPrice);
         DataValidation.checkIsNumber(fieldPrice.getText(), fieldPrice);
 
