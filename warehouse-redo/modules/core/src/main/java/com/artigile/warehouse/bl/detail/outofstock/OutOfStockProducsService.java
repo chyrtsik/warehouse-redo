@@ -6,7 +6,10 @@ import org.hibernate.SessionFactory;
 import org.hibernate.jdbc.ReturningWork;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -102,7 +105,7 @@ public class OutOfStockProducsService {
 	) o on d.product_id = o.product_id
 ) s
 where enough_for_months is not null
-and enough_for_months < 3
+and enough_for_months < 6
 order by enough_for_months
 ;
 
@@ -156,7 +159,7 @@ order by enough_for_months
             "\t) o on d.product_id = o.product_id\n" +
             ") s\n" +
             "where enough_for_months is not null \n" +
-            "and enough_for_months < 3\n" +
+            "and enough_for_months < 6\n" +
             "order by enough_for_months\n" +
             ";\n";
 

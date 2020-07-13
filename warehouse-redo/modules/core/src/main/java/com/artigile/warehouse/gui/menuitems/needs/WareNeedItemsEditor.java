@@ -30,10 +30,12 @@ import com.artigile.warehouse.gui.core.switchable.SwitchableViewItem;
 import com.artigile.warehouse.gui.menuitems.details.batches.DetailBatchesList;
 import com.artigile.warehouse.gui.menuitems.details.catalog.DetailCatalog;
 import com.artigile.warehouse.gui.menuitems.details.catalog.DetailCatalogBatchesListFactory;
+import com.artigile.warehouse.gui.menuitems.details.outofstock.OutOfStockProductsList;
 import com.artigile.warehouse.gui.utils.GridLayoutUtils;
 import com.artigile.warehouse.utils.SpringServiceContext;
 import com.artigile.warehouse.utils.dto.details.DetailBatchTO;
 import com.artigile.warehouse.utils.dto.details.DetailGroupTO;
+import com.artigile.warehouse.utils.dto.details.outofstock.OutOfStockProductTO;
 import com.artigile.warehouse.utils.dto.needs.WareNeedItemTO;
 import com.artigile.warehouse.utils.dto.needs.WareNeedTO;
 import com.artigile.warehouse.utils.i18n.I18nSupport;
@@ -42,6 +44,7 @@ import com.artigile.warehouse.utils.properties.savers.SplitPaneOrietationSaver;
 import com.artigile.warehouse.utils.properties.savers.SplitPaneSaver;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
@@ -142,7 +145,7 @@ public class WareNeedItemsEditor extends FramePlugin {
      */
     private class AddItemToWareNeedCommand extends CustomCommand {
         private AddItemToWareNeedCommand() {
-            super(new ResourceCommandNaming("wareNeed.items.editor.addToNeed.command"), new PermissionCommandAvailability(PermissionType.EDIT_WARE_NEED_ITEMS));
+            super(new ResourceCommandNaming("wareNeed.items.editor.addToNeed.command"), getAddItemAvailability());
         }
 
         @Override
@@ -168,17 +171,22 @@ public class WareNeedItemsEditor extends FramePlugin {
             }
             return false;
         }
+    }
 
-        private WareNeedItemTO getSimilarExist(WareNeedItemTO newWareNeedItem) {
-            for (WareNeedItemTO item : newWareNeedItem.getWareNeed().getItems()) {
-                if (item.getDetailBatch().equals(newWareNeedItem.getDetailBatch())
-                        && item.getCustomer() == newWareNeedItem.getCustomer()
-                        && item.getAutoCreated() == newWareNeedItem.getAutoCreated()) {
-                    return item;
-                }
+    private WareNeedItemTO getSimilarExist(WareNeedItemTO newWareNeedItem) {
+        for (WareNeedItemTO item : newWareNeedItem.getWareNeed().getItems()) {
+            if (item.getDetailBatch().equals(newWareNeedItem.getDetailBatch())
+                    && item.getCustomer() == newWareNeedItem.getCustomer()
+                    && item.getAutoCreated() == newWareNeedItem.getAutoCreated()) {
+                return item;
             }
-            return null;
         }
+        return null;
+    }
+
+    @NotNull
+    private static PermissionCommandAvailability getAddItemAvailability() {
+        return new PermissionCommandAvailability(PermissionType.EDIT_WARE_NEED_ITEMS);
     }
 
     /**
@@ -198,6 +206,40 @@ public class WareNeedItemsEditor extends FramePlugin {
 //            return true;
 //        }
 //    }
+
+    private class AddOutOfStockItemToWareNeedCommand extends CustomCommand {
+        protected AddOutOfStockItemToWareNeedCommand() {
+            super(new ResourceCommandNaming("wareNeed.items.editor.addToNeed.command"), getAddItemAvailability());
+        }
+
+        @Override
+        protected boolean doExecute(ReportCommandContext context) throws ReportCommandException {
+            OutOfStockProductTO item = (OutOfStockProductTO)context.getCurrentReportItem();
+            DetailBatchTO detailBatchToAdd = SpringServiceContext.getInstance().getDetailBatchesService().getBatch(item.getId());
+            WareNeedItemTO wareNeedItem = new WareNeedItemTO(wareNeed, detailBatchToAdd, true);
+            if (item.getOrderedCount() < item.getCountToOrder()) {
+                wareNeedItem.setCount(item.getCountToOrder() - item.getOrderedCount());
+            }
+
+            PropertiesForm prop = new WareNeedItemForm(wareNeedItem, true);
+            if (Dialogs.runProperties(prop)) {
+                WareNeedItemTO existsWareNeedItem = getSimilarExist(wareNeedItem);
+                if (existsWareNeedItem != null) {
+                    boolean modifyExistingItem = MessageDialogs.showConfirm(
+                            I18nSupport.message("wareNeed.item.properties.title"),
+                            I18nSupport.message("wareNeed.item.add.to.element.that.already.exists"));
+                    if (!modifyExistingItem) {
+                        existsWareNeedItem = null;
+                    }
+                }
+
+                onAddNewWareNeedItem(wareNeedItem, existsWareNeedItem);
+
+                return true;
+            }
+            return false;
+        }
+    }
 
     /**
      * Adding new item to ware need items list.
@@ -228,7 +270,28 @@ public class WareNeedItemsEditor extends FramePlugin {
         //Initialize switchable view for providing multiple ways or details batch selection.
         java.util.List<SwitchableViewItem> viewItems = new ArrayList<SwitchableViewItem>();
 
-        //1. Price list view.
+        //Out of stock items
+        viewItems.add(new SwitchableViewItem() {
+            @Override
+            public String getName() {
+                return I18nSupport.message("detail.batch.outofstock.title");
+            }
+
+            @Override
+            public Component getCreateViewComponent() {
+                //Decorates the list with a new commands for adding purchase items to list.
+                ReportCommandList additionalCommands = new ReportCommandListImpl();
+                additionalCommands.add(new AddOutOfStockItemToWareNeedCommand());
+                additionalCommands.setDefaultCommandForRow(additionalCommands.get(0));
+
+                OutOfStockProductsList outOfStockList = new OutOfStockProductsList(WareNeedItemsEditor.this.getClass().getCanonicalName());
+                ReportCommandsDecorator decoratedItemsList = new ReportCommandsDecorator(outOfStockList, additionalCommands);
+                TableReport tableReport = new TableReport(decoratedItemsList, WareNeedItemsEditor.this);
+                return tableReport.getContentPanel();
+            }
+        });
+
+        //Price list view.
         viewItems.add(new SwitchableViewItem() {
             @Override
             public String getName() {
@@ -245,7 +308,7 @@ public class WareNeedItemsEditor extends FramePlugin {
             }
         });
 
-        //2. Details catalog view.
+        //Details catalog view.
         viewItems.add(new SwitchableViewItem() {
             @Override
             public String getName() {
