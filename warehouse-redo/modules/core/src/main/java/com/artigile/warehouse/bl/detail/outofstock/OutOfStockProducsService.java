@@ -105,7 +105,7 @@ public class OutOfStockProducsService {
 	) o on d.product_id = o.product_id
 ) s
 where enough_for_months is not null
-and enough_for_months < 6
+  and enough_for_months between 0 and 6
 order by enough_for_months
 ;
 
@@ -159,7 +159,7 @@ order by enough_for_months
             "\t) o on d.product_id = o.product_id\n" +
             ") s\n" +
             "where enough_for_months is not null \n" +
-            "and enough_for_months < 6\n" +
+            "and enough_for_months between 0 and 6\n" +
             "order by enough_for_months\n" +
             ";\n";
 
